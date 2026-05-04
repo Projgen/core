@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.2](https://github.com/Projgen/core_v2/compare/v2.1.1...v2.1.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* update release token in workflow configuration ([b69c9e5](https://github.com/Projgen/core_v2/commit/b69c9e5df3a1aa7128686aed2b72f027c8e42f5e))
+* update token in release workflow and add support for release-please branch to fix pending actions on release PR ([fb80bf1](https://github.com/Projgen/core_v2/commit/fb80bf12d57d09c8742e856d230b262cdd03fcb8))
+
 ## [2.1.1](https://github.com/Projgen/core_v2/compare/v2.1.0...v2.1.1) (2026-05-04)
 
 
