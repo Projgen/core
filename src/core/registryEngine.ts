@@ -143,10 +143,9 @@ export const addTemplateToRegistry = async (
 
   const aliasExists = registry.templates.some((entry) => entry.alias === alias);
   if (aliasExists) {
-    console.error(
+    throw new Error(
       `Error: A template with the same alias already exists in the registry: ${alias}.`,
     );
-    process.exit(1);
   }
 
   const fileExists = await fs
@@ -155,10 +154,9 @@ export const addTemplateToRegistry = async (
     .catch(() => false);
 
   if (fileExists) {
-    console.error(
+    throw new Error(
       `Error: A template with the same ID already exists at ${templatePath}.`,
     );
-    process.exit(1);
   }
 
   await fs.writeFile(templatePath, JSON.stringify(template, null, 2), "utf8");
