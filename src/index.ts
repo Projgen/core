@@ -4,7 +4,7 @@ import path from "node:path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "node:fs";
-import { tryCatchSync } from "./utils/tryCatch.ts";
+import { tryCatch, tryCatchSync } from "./utils/tryCatch.ts";
 import { type Template, TemplateSchema } from "./types/template.ts";
 import {
   getTemplateEngineVersion,
@@ -17,6 +17,12 @@ import {
 
 import { fileURLToPath } from "node:url";
 import prompter from "./utils/prompter.ts";
+import {
+  logExpectedError,
+  ProjgenError,
+  TemplateError,
+  UserCancellationError,
+} from "./core/errors.ts";
 
 type TemplateInput =
   | { kind: "remote-url"; url: URL }
@@ -58,7 +64,7 @@ const validateTemplate = (template: unknown): Template => {
   const validationResult = TemplateSchema.safeParse(template);
 
   if (!validationResult.success) {
-    throw new Error(
+    throw new ProjgenError(
       `Error: Invalid template file. ${validationResult.error.message}`,
     );
   }
@@ -81,8 +87,9 @@ const getTemplateFromFilePath = (templatePath: string): Template | null => {
   const templateData = tryCatchSync(() => JSON.parse(templateContent));
 
   if (templateData.error) {
-    throw new Error(
-      `Error: Failed to parse JSON in template file at path "${templatePath}". ${templateData.error.message}`,
+    throw new TemplateError(
+      `Error: Failed to parse JSON in template file at path "${templatePath}".`,
+      { cause: templateData.error },
     );
   }
 
@@ -91,8 +98,9 @@ const getTemplateFromFilePath = (templatePath: string): Template | null => {
   );
 
   if (validatedTemplate.error) {
-    throw new Error(
-      `Error: Invalid template file at path "${templatePath}". ${validatedTemplate.error.message}`,
+    throw new TemplateError(
+      `Error: Invalid template file at path "${templatePath}".`,
+      { cause: validatedTemplate.error },
     );
   }
 
@@ -107,7 +115,7 @@ const getTemplateFromUrl = async (templateUrl: URL): Promise<Template> => {
   const response = await fetch(templateUrl, { redirect: "follow" });
 
   if (!response.ok) {
-    throw new Error(
+    throw new ProjgenError(
       `Error: Failed to fetch template from "${templateUrl}". HTTP ${response.status}`,
     );
   }
@@ -116,7 +124,7 @@ const getTemplateFromUrl = async (templateUrl: URL): Promise<Template> => {
   if (response.redirected) {
     const finalUrl = new URL(response.url);
     if (finalUrl.origin !== templateUrl.origin) {
-      throw new Error(
+      throw new ProjgenError(
         `Error: Template URL "${templateUrl}" redirected to a different origin "${finalUrl}". Refusing to use redirected template.`,
       );
     }
@@ -126,8 +134,9 @@ const getTemplateFromUrl = async (templateUrl: URL): Promise<Template> => {
   const validatedTemplate = tryCatchSync(() => validateTemplate(templateData));
 
   if (validatedTemplate.error) {
-    throw new Error(
-      `Error: Invalid template data from "${templateUrl}". ${validatedTemplate.error.message}`,
+    throw new TemplateError(
+      `Error: Invalid template data from "${templateUrl}".`,
+      { cause: validatedTemplate.error },
     );
   }
 
@@ -181,7 +190,7 @@ const getTemplate = async (input: string): Promise<ResolvedTemplate> => {
     };
   }
 
-  throw new Error(
+  throw new ProjgenError(
     `Error: Template not found at source "${input}" or in registry with alias "${input}".`,
   );
 };
@@ -190,7 +199,7 @@ const assertTemplateEngineCompatibility = (template: Template): void => {
   const engineVersion = getTemplateEngineVersion();
 
   if (template.engineVersion !== engineVersion) {
-    throw new Error(
+    throw new TemplateError(
       `Error: Template version ${template.engineVersion} is not compatible with template engine version ${engineVersion}.`,
     );
   }
@@ -219,7 +228,7 @@ const create = async (templateSource: string) => {
     });
 
     if (!allowDownload.content) {
-      throw new Error("Template download cancelled by user.");
+      throw new UserCancellationError();
     }
 
     const saveToRegistry = await prompter.promptForBoolean({
@@ -260,7 +269,24 @@ yargs()
     },
     handler: async (argv) => {
       console.clear();
-      await create(argv.templatePath as string);
+      const creationResult = await tryCatch(
+        create(argv.templatePath as string),
+      );
+
+      if (creationResult.error) {
+        if (creationResult.error instanceof UserCancellationError) {
+          console.log("Operation cancelled by the user.");
+        } else if (creationResult.error instanceof TemplateError) {
+          logExpectedError("Template Error", creationResult.error);
+        } else if (creationResult.error instanceof ProjgenError) {
+          logExpectedError("Projgen Error", creationResult.error);
+        } else {
+          console.error("An unexpected error occurred:");
+          console.error(creationResult.error);
+        }
+      } else {
+        console.log("Project created successfully!");
+      }
     },
   })
   .command({
@@ -283,7 +309,7 @@ yargs()
         argv.templatePath as string,
       );
       if (!template) {
-        throw new Error(
+        throw new ProjgenError(
           `Error: Template not found at path "${argv.templatePath}".`,
         );
       }

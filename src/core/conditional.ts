@@ -1,5 +1,6 @@
 import type { StepCondition } from "../types/template.ts";
 import type { Variable } from "../types/variable.ts";
+import { TemplateError } from "./errors.ts";
 
 export const checkCondition = (
   condition: StepCondition,
@@ -81,7 +82,7 @@ export const checkCondition = (
       return !regex.test(variable.content);
     }
     default:
-      throw new Error(
+      throw new TemplateError(
         `Unsupported operator "${condition.operator}" in condition`,
       );
   }
@@ -96,7 +97,7 @@ const getStringVariableValue = (
     typeof variable.content !== "string" ||
     typeof condition.value !== "string"
   ) {
-    throw new Error(
+    throw new TemplateError(
       `Operator "${condition.operator}" can only be used with string variables`,
     );
   }
@@ -112,7 +113,7 @@ const getArrayVariableValue = (
 ) => {
   const variable = getVariableValue(condition.variable, variables);
   if (!Array.isArray(variable.content)) {
-    throw new Error(
+    throw new TemplateError(
       `Operator "${condition.operator}" can only be used with array variables`,
     );
   }
@@ -133,7 +134,7 @@ const getNumberVariableValue = (
     isNaN(variable.content) ||
     isNaN(condition.value)
   ) {
-    throw new Error(
+    throw new TemplateError(
       `Operator "lt" can only be used with number variables and values`,
     );
   }
@@ -146,7 +147,9 @@ const getNumberVariableValue = (
 const getVariableValue = (variableName: string, variables: Variable[]) => {
   const variable = variables.find((v) => v.name === variableName);
   if (!variable) {
-    throw new Error(`Variable "${variableName}" not found for condition check`);
+    throw new TemplateError(
+      `Variable "${variableName}" not found for condition check`,
+    );
   }
   return variable;
 };
