@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import yargs from "yargs";
+import yargs, { type ArgumentsCamelCase } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { tryCatch } from "./utils/tryCatch.ts";
 import { scaffoldFromTemplate } from "./core/templatingEngine.ts";
@@ -55,6 +55,58 @@ const create = async (templateSource: string) => {
   await scaffoldFromTemplate(resolved.template);
 };
 
+/*
+########################
+# CLI command Handlers #
+########################
+*/
+const createHandler = async (
+  argv: ArgumentsCamelCase<{ templatePath: string | undefined }>,
+) => {
+  console.clear();
+
+  if (!argv.templatePath) {
+    console.error("Error: Template path is required.");
+    return;
+  }
+  const creationResult = await tryCatch(create(argv.templatePath as string));
+
+  if (creationResult.error) {
+    if (creationResult.error instanceof UserCancellationError) {
+      console.log("Operation cancelled by the user.");
+    } else if (creationResult.error instanceof TemplateError) {
+      logExpectedError("Template Error", creationResult.error);
+    } else if (creationResult.error instanceof ProjgenError) {
+      logExpectedError("Projgen Error", creationResult.error);
+    } else {
+      console.error("An unexpected error occurred:");
+      console.error(creationResult.error);
+    }
+  } else {
+    console.log("Project created successfully!");
+  }
+};
+
+const addHandler = async (
+  argv: ArgumentsCamelCase<{
+    templatePath: string | undefined;
+    alias: string | undefined;
+  }>,
+) => {
+  if (!argv.templatePath) {
+    console.error("Error: Template path is required.");
+    return;
+  }
+
+  const template = await getTemplateFromFilePath(argv.templatePath as string);
+  if (!template) {
+    throw new ProjgenError(
+      `Error: Template not found at path "${argv.templatePath}".`,
+    );
+  }
+  await addTemplateToRegistry(template, argv.alias || null);
+};
+
 yargs()
   .scriptName("projgen")
   .usage("$0 <command> [args]")
@@ -69,27 +121,7 @@ yargs()
           "Template source: local path, file:// URL, http(s):// URL, or registry alias",
       });
     },
-    handler: async (argv) => {
-      console.clear();
-      const creationResult = await tryCatch(
-        create(argv.templatePath as string),
-      );
-
-      if (creationResult.error) {
-        if (creationResult.error instanceof UserCancellationError) {
-          console.log("Operation cancelled by the user.");
-        } else if (creationResult.error instanceof TemplateError) {
-          logExpectedError("Template Error", creationResult.error);
-        } else if (creationResult.error instanceof ProjgenError) {
-          logExpectedError("Projgen Error", creationResult.error);
-        } else {
-          console.error("An unexpected error occurred:");
-          console.error(creationResult.error);
-        }
-      } else {
-        console.log("Project created successfully!");
-      }
-    },
+    handler: createHandler,
   })
   .command({
     command: "add [templatePath] [alias]",
@@ -106,17 +138,7 @@ yargs()
           describe: "Alias to refer to the template by in the registry",
         });
     },
-    handler: async (argv) => {
-      const template = await getTemplateFromFilePath(
-        argv.templatePath as string,
-      );
-      if (!template) {
-        throw new ProjgenError(
-          `Error: Template not found at path "${argv.templatePath}".`,
-        );
-      }
-      await addTemplateToRegistry(template, argv.alias as string);
-    },
+    handler: addHandler,
   })
   .help()
   .parse(hideBin(process.argv));
