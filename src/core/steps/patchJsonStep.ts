@@ -4,6 +4,7 @@ import type { Variable } from "../../types/variable";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 import { checkCondition } from "../conditional.ts";
 import { writeFile } from "fs/promises";
+import { TemplateError } from "../errors.ts";
 
 export default async (step: PatchJsonStep, variables: Variable[]) => {
   if (
@@ -59,7 +60,7 @@ const setValueAtJsonPath = (
   value: unknown,
 ): unknown => {
   if (typeof jsonPath[0] !== "string")
-    throw new Error("jsonPath has to be an array of strings");
+    throw new TemplateError("jsonPath has to be an array of strings");
 
   // Ensure we have an object to operate on; create missing objects along the path
   const obj: Record<string, unknown> = isRecord(json)
@@ -85,7 +86,7 @@ const appendValueAtJsonPath = (
   value: unknown,
 ): unknown => {
   if (typeof jsonPath[0] !== "string")
-    throw new Error("jsonPath has to be an array of strings");
+    throw new TemplateError("jsonPath has to be an array of strings");
   if (isRecord(json)) {
     if (jsonPath.length > 1) {
       json[jsonPath[0]] = appendValueAtJsonPath(
@@ -104,7 +105,7 @@ const appendValueAtJsonPath = (
     } else if (typeof target === "object" && isRecord(value)) {
       json[jsonPath[0]] = { ...target, ...value };
     } else {
-      throw new Error(
+      throw new TemplateError(
         `Cannot append value to target at jsonPath ${jsonPath.join(
           ".",
         )} because they are not compatible types`,
@@ -117,7 +118,7 @@ const appendValueAtJsonPath = (
 
 const removeValueAtJsonPath = (json: unknown, jsonPath: string[]): unknown => {
   if (typeof jsonPath[0] !== "string")
-    throw new Error("jsonPath has to be an array of strings");
+    throw new TemplateError("jsonPath has to be an array of strings");
   if (isRecord(json)) {
     if (jsonPath.length > 1) {
       json[jsonPath[0]] = removeValueAtJsonPath(

@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import { type Registry, registrySchema } from "../types/registry.ts";
 import { getConfigDir } from "../utils/getConfigDir.ts";
 import type { Template } from "../types/template.ts";
+import { RegistryError } from "./errors.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;
 
@@ -46,13 +47,13 @@ const loadRegistry = async (): Promise<Registry> => {
   const validationResult = registrySchema.safeParse(parsedRegistry);
 
   if (!validationResult.success) {
-    throw new Error(
+    throw new RegistryError(
       `Error: Invalid registry file. ${validationResult.error.message}`,
     );
   }
 
   if (validationResult.data.version !== REGISTRY_ENGINE_VERSION) {
-    throw new Error(
+    throw new RegistryError(
       `Error: Unsupported registry version. Expected version ${REGISTRY_ENGINE_VERSION}.`,
     );
   }
@@ -143,10 +144,9 @@ export const addTemplateToRegistry = async (
 
   const aliasExists = registry.templates.some((entry) => entry.alias === alias);
   if (aliasExists) {
-    console.error(
+    throw new RegistryError(
       `Error: A template with the same alias already exists in the registry: ${alias}.`,
     );
-    process.exit(1);
   }
 
   const fileExists = await fs
@@ -155,10 +155,9 @@ export const addTemplateToRegistry = async (
     .catch(() => false);
 
   if (fileExists) {
-    console.error(
+    throw new RegistryError(
       `Error: A template with the same ID already exists at ${templatePath}.`,
     );
-    process.exit(1);
   }
 
   await fs.writeFile(templatePath, JSON.stringify(template, null, 2), "utf8");
