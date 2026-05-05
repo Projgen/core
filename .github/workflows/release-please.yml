@@ -3,7 +3,7 @@ name: Release Please
 on:
   push:
     branches:
-      - master
+      - release
 
 permissions:
   contents: write
@@ -19,6 +19,7 @@ jobs:
         with:
           release-type: node
           token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: release
 
       - uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
