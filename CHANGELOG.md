@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/Projgen/core_v2/compare/v2.1.2...v2.1.3) (2026-05-05)
+
+
+### Bug Fixes
+
+* Better Error handling ([#55](https://github.com/Projgen/core_v2/issues/55)) ([0dfc857](https://github.com/Projgen/core_v2/commit/0dfc8575de7ef40f4fa3ca2fb4137fa313e99da5))
+
 ## [2.1.2](https://github.com/Projgen/core_v2/compare/v2.1.1...v2.1.2) (2026-05-05)
 
 
