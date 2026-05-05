@@ -6,10 +6,7 @@ import { hideBin } from "yargs/helpers";
 import fs from "node:fs";
 import { tryCatch, tryCatchSync } from "./utils/tryCatch.ts";
 import { type Template, TemplateSchema } from "./types/template.ts";
-import {
-  getTemplateEngineVersion,
-  scaffoldFromTemplate,
-} from "./core/templatingEngine.ts";
+import { scaffoldFromTemplate } from "./core/templatingEngine.ts";
 import {
   addTemplateToRegistry,
   getTemplatePathFromRegistry,
@@ -195,22 +192,6 @@ const getTemplate = async (input: string): Promise<ResolvedTemplate> => {
   );
 };
 
-const assertTemplateEngineCompatibility = (template: Template): void => {
-  const engineVersion = getTemplateEngineVersion();
-
-  if (template.engineVersion !== engineVersion) {
-    throw new TemplateError(
-      `Error: Template version ${template.engineVersion} is not compatible with template engine version ${engineVersion}.`,
-    );
-  }
-};
-
-/**
- * High-level workflow for `projgen create`.
- * - If the source is a remote URL, fetch and validate it, then confirm with the user.
- *   Optionally add it to the registry
- * - Otherwise, resolve through local paths/registry and scaffold.
- */
 const create = async (templateSource: string) => {
   const resolved = await getTemplate(templateSource);
   const { template } = resolved;
@@ -249,7 +230,6 @@ const create = async (templateSource: string) => {
       await addTemplateToRegistry(template, aliasResult.content);
     }
   }
-  assertTemplateEngineCompatibility(template);
   await scaffoldFromTemplate(template);
 };
 
