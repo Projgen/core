@@ -19,7 +19,7 @@ import {
 } from "./core/errors.ts";
 import { getTemplate, getTemplateFromFilePath } from "./core/templateFinder.ts";
 
-const create = async (templateSource: string) => {
+const create = async (templateSource: string, skipPrompts: boolean) => {
   const resolved = await getTemplate(templateSource);
 
   if (resolved.sourceKind === "remote-url") {
@@ -56,7 +56,7 @@ const create = async (templateSource: string) => {
       await addTemplateToRegistry(resolved.template, aliasResult.content);
     }
   }
-  await scaffoldFromTemplate(resolved.template);
+  await scaffoldFromTemplate(resolved.template, skipPrompts);
 };
 
 /*
@@ -65,7 +65,10 @@ const create = async (templateSource: string) => {
 ########################
 */
 const createHandler = async (
-  argv: ArgumentsCamelCase<{ templatePath: string | undefined }>,
+  argv: ArgumentsCamelCase<{
+    templatePath: string | undefined;
+    skipPrompts: boolean;
+  }>,
 ) => {
   console.clear();
 
@@ -73,7 +76,9 @@ const createHandler = async (
     console.error("Error: Template path is required.");
     return;
   }
-  const creationResult = await tryCatch(create(argv.templatePath as string));
+  const creationResult = await tryCatch(
+    create(argv.templatePath, argv.skipPrompts),
+  );
 
   if (creationResult.error) {
     if (creationResult.error instanceof UserCancellationError) {
@@ -124,11 +129,18 @@ yargs()
     describe: "Create a new project from a template",
     aliases: ["c", "cr"],
     builder: (yargs) => {
-      return yargs.positional("templatePath", {
-        type: "string",
-        describe:
-          "Template source: local path, file:// URL, http(s):// URL, or registry alias",
-      });
+      return yargs
+        .positional("templatePath", {
+          type: "string",
+          describe:
+            "Template source: local path, file:// URL, http(s):// URL, or registry alias",
+        })
+        .option("skipPrompts", {
+          alias: "y",
+          type: "boolean",
+          describe: "Skip all prompts",
+          default: false,
+        });
     },
     handler: createHandler,
   })
