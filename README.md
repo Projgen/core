@@ -60,6 +60,16 @@ projgen add ./some-template.json myTemplate
 
 now the template in some-template.json can be run using `projgen c myTemplate`
 
+### List
+
+Used to list the contents of the local registry (Registry Version, Templates and Linked Registries)
+
+```bash
+projgen list
+```
+
+Aliases: `projgen ls`
+
 ## Template Structure
 
 A template is a JSON file that defines variables (user prompts) and steps (actions to scaffold the project).

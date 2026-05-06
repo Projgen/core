@@ -8,7 +8,6 @@ import {
   addTemplateToRegistry,
   loadRegistry,
   printRegistry,
-  printRegistryEntries,
 } from "./core/registryEngine.ts";
 
 import prompter from "./utils/prompter.ts";
