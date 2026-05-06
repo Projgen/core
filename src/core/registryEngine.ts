@@ -4,6 +4,7 @@ import { type Registry, registrySchema } from "../types/registry.ts";
 import { getConfigDir } from "../utils/getConfigDir.ts";
 import type { Template } from "../types/template.ts";
 import { RegistryError } from "./errors.ts";
+import { printTable } from "../utils/printTable.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;
 
@@ -39,7 +40,7 @@ const ensureRegistryExists = async (): Promise<void> => {
   }
 };
 
-const loadRegistry = async (): Promise<Registry> => {
+export const loadRegistry = async (): Promise<Registry> => {
   await ensureRegistryExists();
   const registryPath = getRegistryPath();
   const registryContent = await fs.readFile(registryPath, "utf-8");
@@ -171,4 +172,38 @@ export const addTemplateToRegistry = async (
   console.log(
     `Template "${template.name}" added to registry with alias "${alias}".`,
   );
+};
+
+export const printRegistryEntries = (
+  entries: { alias: string; path: string }[],
+) => {
+  if (entries.length === 0) {
+    console.log("No templates in registry.");
+    return;
+  }
+
+  printTable(
+    entries.map((entry) => [entry.alias, entry.path]),
+    ["Alias", "Path"],
+  );
+};
+
+export const printlinkedRegistries = (linkedRegistries: string[]) => {
+  if (linkedRegistries.length === 0) {
+    console.log("No linked registries.");
+    return;
+  }
+
+  printTable(
+    linkedRegistries.map((url) => [url]),
+    ["Linked Registry URL"],
+  );
+};
+
+export const printRegistry = (registry: Registry) => {
+  console.log(`Registry Version: ${registry.version}`);
+  console.log("\nTemplates:");
+  printRegistryEntries(registry.templates);
+  console.log("\nLinked Registries:");
+  printlinkedRegistries(registry.linkedRegistries ?? []);
 };
