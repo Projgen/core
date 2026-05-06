@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.1.3](https://github.com/Projgen/core_v2/compare/v2.1.2...v2.1.3) (2026-05-05)
+
+
+### Bug Fixes
+
+* Better Error handling ([#55](https://github.com/Projgen/core_v2/issues/55)) ([0dfc857](https://github.com/Projgen/core_v2/commit/0dfc8575de7ef40f4fa3ca2fb4137fa313e99da5))
+
+## [2.1.2](https://github.com/Projgen/core_v2/compare/v2.1.1...v2.1.2) (2026-05-05)
+
+
+### Bug Fixes
+
+* update CI workflow to include release-please branch for push events ([6b3933e](https://github.com/Projgen/core_v2/commit/6b3933e9db6451ec50aba9a9852eda26dbb5a2b5))
+* update release token in workflow configuration ([b69c9e5](https://github.com/Projgen/core_v2/commit/b69c9e5df3a1aa7128686aed2b72f027c8e42f5e))
+* update token in release workflow and add support for release-please branch to fix pending actions on release PR ([fb80bf1](https://github.com/Projgen/core_v2/commit/fb80bf12d57d09c8742e856d230b262cdd03fcb8))
+* update workflows to release from release branch instead of master ([#52](https://github.com/Projgen/core_v2/issues/52)) ([7ac472a](https://github.com/Projgen/core_v2/commit/7ac472a51bfc6c932c2b95941557bb6de28520c3))
+
 ## [2.1.1](https://github.com/Projgen/core_v2/compare/v2.1.0...v2.1.1) (2026-05-04)
 
 
