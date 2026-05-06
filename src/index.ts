@@ -98,7 +98,7 @@ const addHandler = async (
     return;
   }
 
-  const template = await getTemplateFromFilePath(argv.templatePath as string);
+  const template = getTemplateFromFilePath(argv.templatePath);
   if (!template) {
     throw new ProjgenError(
       `Error: Template not found at path "${argv.templatePath}".`,

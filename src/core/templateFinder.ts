@@ -35,7 +35,7 @@ const toResolvedTemplate = (
 };
 
 // Load and validate a template from a local file path.
-// Returns null if the file doesn't exist, or throws if the file exists but is invalid.
+// Throws if the file doesn't exists or is invalid.
 export const getTemplate = async (input: string): Promise<ResolvedTemplate> => {
   const parsed = parseTemplateInput(input);
 
