@@ -4,7 +4,11 @@ import yargs, { type ArgumentsCamelCase } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { tryCatch } from "./utils/tryCatch.ts";
 import { scaffoldFromTemplate } from "./core/templatingEngine.ts";
-import { addTemplateToRegistry } from "./core/registryEngine.ts";
+import {
+  addTemplateToRegistry,
+  loadRegistry,
+  printRegistry,
+} from "./core/registryEngine.ts";
 
 import prompter from "./utils/prompter.ts";
 import {
@@ -107,6 +111,11 @@ const addHandler = async (
   await addTemplateToRegistry(template, argv.alias || null);
 };
 
+const listHandler = async () => {
+  const registry = await loadRegistry();
+  printRegistry(registry);
+};
+
 yargs()
   .scriptName("projgen")
   .usage("$0 <command> [args]")
@@ -139,6 +148,12 @@ yargs()
         });
     },
     handler: addHandler,
+  })
+  .command({
+    command: "list",
+    describe: "List all registry entries",
+    aliases: ["ls"],
+    handler: listHandler,
   })
   .help()
   .parse(hideBin(process.argv));
