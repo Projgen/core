@@ -135,7 +135,8 @@ yargs()
           describe:
             "Template source: local path, file:// URL, http(s):// URL, or registry alias",
         })
-        .positional("skipPrompts", {
+        .option("skipPrompts", {
+          alias: "y",
           type: "boolean",
           describe: "Skip all prompts",
           default: false,
