@@ -1,15 +1,21 @@
 import { type Template, type Variable } from "../types/template.ts";
 import type { Variable as VariableValue } from "../types/variable.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
+import { TemplateError } from "./errors.ts";
 import steps from "./steps/steps.ts";
 
 const TEMPLATE_ENGINE_VERSION = 1;
 
-export const getTemplateEngineVersion = (): number => {
-  return TEMPLATE_ENGINE_VERSION;
+const assertTemplateEngineCompatibility = (template: Template): void => {
+  if (template.engineVersion !== TEMPLATE_ENGINE_VERSION) {
+    throw new TemplateError(
+      `Error: Template version ${template.engineVersion} is not compatible with template engine version ${TEMPLATE_ENGINE_VERSION}.`,
+    );
+  }
 };
 
 export const scaffoldFromTemplate = async (template: Template) => {
+  assertTemplateEngineCompatibility(template);
   printTemplateInfo(template);
   const variables = await promptForVariables(template.variables);
 
