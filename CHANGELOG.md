@@ -5,6 +5,8 @@
 
 ### Features
 
+* Better Error Handling
+* List Command
 * New Release ([#59](https://github.com/Projgen/core_v2/issues/59)) ([8a2c3d2](https://github.com/Projgen/core_v2/commit/8a2c3d20eaeb8652d4e4c64f6f849ef3cba96e02))
 
 ## [2.1.3](https://github.com/Projgen/core_v2/compare/v2.1.2...v2.1.3) (2026-05-05)
