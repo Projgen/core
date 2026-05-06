@@ -19,7 +19,7 @@ npx @projgen/cli create ./my-template.json
 ### Create
 
 ```bash
-projgen create [templatePath]
+projgen create [templatePath] [skipPrompts]
 ```
 
 Aliases: `projgen c` `projgen cr`
@@ -31,6 +31,8 @@ projgen create ./templates/test.json
 ```
 
 Projgen will validate the template, prompt you for any defined variables, and then execute all steps in order.
+
+You can add -y to skip all Variables Prompts that are optional or have a default value and will only get prompted for required variables without default value.
 
 ### Add
 
