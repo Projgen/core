@@ -4,12 +4,23 @@ import prompter, { type Prompter } from "../utils/prompter.ts";
 import { ProjgenError, TemplateError } from "./errors.ts";
 import steps from "./steps/steps.ts";
 
-const TEMPLATE_ENGINE_VERSION = 1;
+const TEMPLATE_ENGINE_VERSION = "2.0";
 
 const assertTemplateEngineCompatibility = (template: Template): void => {
-  if (template.engineVersion !== TEMPLATE_ENGINE_VERSION) {
+  const [major, minor] = TEMPLATE_ENGINE_VERSION.split(".").map(Number);
+  const [templateMajor, templateMinor] = template.engineVersion
+    .split(".")
+    .map(Number);
+
+  if (!major || !minor || !templateMajor || !templateMinor) {
     throw new TemplateError(
-      `Error: Template version ${template.engineVersion} is not compatible with template engine version ${TEMPLATE_ENGINE_VERSION}.`,
+      `Invalid template engine version format. Template requires version ${template.engineVersion}, but current version is ${TEMPLATE_ENGINE_VERSION}.`,
+    );
+  }
+
+  if (templateMajor !== major || templateMinor > minor) {
+    throw new TemplateError(
+      `Incompatible template engine version. Template requires version ${template.engineVersion}, but current version is ${TEMPLATE_ENGINE_VERSION}.`,
     );
   }
 };
