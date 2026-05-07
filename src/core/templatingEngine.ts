@@ -1,10 +1,8 @@
-import { tr } from "zod/locales";
 import { type Template, type Variable } from "../types/template.ts";
 import type { Variable as VariableValue } from "../types/variable.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
 import { ProjgenError, TemplateError } from "./errors.ts";
 import steps from "./steps/steps.ts";
-import { tryCatchSync } from "../utils/tryCatch.ts";
 
 const TEMPLATE_ENGINE_VERSION = 1;
 
