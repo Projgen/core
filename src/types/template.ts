@@ -71,22 +71,15 @@ export const VariableSchema = z.discriminatedUnion("type", [
   selectVariableSchema,
 ]);
 
-/*
-export const VariableSchema = z.object({
-  name: z.string(), // The name of the variable by which it can be referenced later in the template
-  type: VariableTypeSchema, // The type of the variable, used to determine how to prompt the user for input (e.g., "string", "number", "boolean", "select", etc.)
-  message: z.string(), // The message to display when prompting the user for input for this variable
-  default: z.string().optional(), // An optional default value for the variable
-  required: z.boolean(), // Whether the user must provide a value when prompted
-  options: z.array(JsonValueSchema).optional(), // An array of option for the select variable type, should only be provided if the variable type is "select", will be ignored otherwhise
+export const abstractStepSchema = z.object({
+  type: z.string(), // The type of the step, used to determine how to execute the step
+  when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
 });
-*/
 
 // A Step to execute shell commands
-export const RunStepSchema = z.object({
+export const RunStepSchema = abstractStepSchema.safeExtend({
   // Common properties for all step types
   type: z.literal("run"), // Defines what kind of step it is
-  when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
 
   // Unique properties for the "run" step type
   command: z.string(), // The command to run
@@ -94,10 +87,9 @@ export const RunStepSchema = z.object({
 });
 
 // A Step to write files to the file system. Will create the file if it doesn't exist and overwrite it if it does exist
-export const WriteStepSchema = z.object({
+export const WriteStepSchema = abstractStepSchema.safeExtend({
   // Common properties for all step types
   type: z.literal("write"), // Defines what kind of step it is
-  when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
 
   // Unique properties for the "write" step type
   path: z.string(), // The path to the file to write, relative to the project root
@@ -106,10 +98,9 @@ export const WriteStepSchema = z.object({
 });
 
 // A Step to edit text in a file
-export const PatchTextStepSchema = z.object({
+export const PatchTextStepSchema = abstractStepSchema.safeExtend({
   // Common properties for all step types
   type: z.literal("patch-text"), // Defines what kind of step it is
-  when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
 
   // Unique properties for the "patch-text" step type
   path: z.string(), // The path to the file to patch, relative to the project root
@@ -129,10 +120,9 @@ export const PatchTextStepSchema = z.object({
 });
 
 // A Step to edit JSON files (usefull for config files)
-export const PatchJsonStepSchema = z.object({
+export const PatchJsonStepSchema = abstractStepSchema.safeExtend({
   // Common properties for all step types
   type: z.literal("patch-json"), // Defines what kind of step it is
-  when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
 
   // Unique properties for the "patch-json" step type
   path: z.string(), // The path to the JSON file to patch, relative to the project root
