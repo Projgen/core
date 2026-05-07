@@ -8,6 +8,7 @@ import {
   addTemplateToRegistry,
   loadRegistry,
   printRegistry,
+  removeTemplateFromRegistry,
 } from "./core/registryEngine.ts";
 
 import prompter from "./utils/prompter.ts";
@@ -121,6 +122,20 @@ const listHandler = async () => {
   printRegistry(registry);
 };
 
+const removeHandler = async (
+  argv: ArgumentsCamelCase<{ alias: string | undefined }>,
+) => {
+  if (!argv.alias) {
+    console.error("Error: Alias is required.");
+    return;
+  }
+  await removeTemplateFromRegistry(argv.alias);
+
+  console.log(
+    `Template with alias "${argv.alias}" has been removed from the registry.`,
+  );
+};
+
 yargs()
   .scriptName("projgen")
   .usage("$0 <command> [args]")
@@ -166,6 +181,18 @@ yargs()
     describe: "List all registry entries",
     aliases: ["ls"],
     handler: listHandler,
+  })
+  .command({
+    command: "remove [alias]",
+    describe: "Remove a template from the registry",
+    aliases: ["rm"],
+    builder: (yargs) => {
+      return yargs.positional("alias", {
+        type: "string",
+        describe: "Alias of the template to remove from the registry",
+      });
+    },
+    handler: removeHandler,
   })
   .help()
   .parse(hideBin(process.argv));

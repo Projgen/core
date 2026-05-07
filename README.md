@@ -72,6 +72,16 @@ projgen list
 
 Aliases: `projgen ls`
 
+### Remove
+
+Used to remove a template from the registry.
+
+```bash
+projgen remove
+```
+
+Aliases: `projgen rm`
+
 ## Template Structure
 
 A template is a JSON file that defines variables (user prompts) and steps (actions to scaffold the project).
