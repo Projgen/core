@@ -8,6 +8,7 @@ import {
   addTemplateToRegistry,
   loadRegistry,
   printRegistry,
+  removeTemplateFromRegistry,
 } from "./core/registryEngine.ts";
 
 import prompter from "./utils/prompter.ts";
@@ -128,7 +129,11 @@ const removeHandler = async (
     console.error("Error: Alias is required.");
     return;
   }
-  console.log("Remove command is not implemented yet.");
+  await removeTemplateFromRegistry(argv.alias);
+
+  console.log(
+    `Template with alias "${argv.alias}" has been removed from the registry.`,
+  );
 };
 
 yargs()

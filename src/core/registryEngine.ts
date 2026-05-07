@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { type Registry, registrySchema } from "../types/registry.ts";
 import { getConfigDir } from "../utils/getConfigDir.ts";
 import type { Template } from "../types/template.ts";
-import { RegistryError } from "./errors.ts";
+import { ProjgenError, RegistryError } from "./errors.ts";
 import { printTable } from "../utils/printTable.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;
@@ -206,4 +206,31 @@ export const printRegistry = (registry: Registry) => {
   printRegistryEntries(registry.templates);
   console.log("\nLinked Registries:");
   printlinkedRegistries(registry.linkedRegistries ?? []);
+};
+
+export const removeTemplateFromRegistry = async (
+  alias: string,
+): Promise<void> => {
+  const registry = await loadRegistry();
+  const templateIndex = registry.templates.findIndex(
+    (template) => template.alias === alias,
+  );
+  if (templateIndex === -1) {
+    throw new ProjgenError(
+      `Template with alias "${alias}" not found in registry.`,
+    );
+  }
+  const [removedEntry] = registry.templates.splice(templateIndex, 1);
+  if (!removedEntry) {
+    throw new ProjgenError(
+      `Failed to remove template with alias "${alias}" from registry.`,
+    );
+  }
+  await fs.writeFile(
+    getRegistryPath(),
+    JSON.stringify(registry, null, 2),
+    "utf8",
+  );
+  const templatePath = path.join(getConfigDir(), removedEntry.path);
+  await fs.unlink(templatePath);
 };
