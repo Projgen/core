@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.5.0](https://github.com/Projgen/core/compare/v2.4.0...v2.5.0) (2026-05-07)
+
+
+### Features
+
+* implement JSON schema generation for templates and add schema command. ([#71](https://github.com/Projgen/core/issues/71)) ([2854e90](https://github.com/Projgen/core/commit/2854e902ebdcf9ae62884300af73870b78286b7e))
+* Merge branch 'release' ([79e8628](https://github.com/Projgen/core/commit/79e8628089cafadcdaff45ca37550469384dd6c8))
+
+
+### Bug Fixes
+
+* make release please trigger from master ([aa2f4ac](https://github.com/Projgen/core/commit/aa2f4ac53015479fa89f2ab612be7cb83de77dc7))
+* make release-please target master branch and update package.json version to match with release branch ([002c1c1](https://github.com/Projgen/core/commit/002c1c15ef8b60e71286363a5edb69e785b32c00))
+
 ## [2.4.0](https://github.com/Projgen/core/compare/v2.3.0...v2.4.0) (2026-05-07)
 
 
