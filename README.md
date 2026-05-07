@@ -367,8 +367,8 @@ Any step can include a `when` array to conditionally execute based on variable v
 ### Setup
 
 ```bash
-git clone https://github.com/Projgen/core_v2.git
-cd core_v2
+git clone https://github.com/Projgen/core.git
+cd core
 npm install
 ```
 
