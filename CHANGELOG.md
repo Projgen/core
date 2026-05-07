@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.0](https://github.com/Projgen/core_v2/compare/v2.1.3...v2.2.0) (2026-05-07)
+
+
+### Features
+
+* implement JSON schema generation for templates and add schema command. ([#71](https://github.com/Projgen/core_v2/issues/71)) ([2854e90](https://github.com/Projgen/core_v2/commit/2854e902ebdcf9ae62884300af73870b78286b7e))
+* variable prompt skipping mit  y ([#62](https://github.com/Projgen/core_v2/issues/62)) ([b63136d](https://github.com/Projgen/core_v2/commit/b63136da249583e6ac7180c335314c55f2fe6e7f))
+
+
+### Bug Fixes
+
+* make release please trigger from master ([aa2f4ac](https://github.com/Projgen/core_v2/commit/aa2f4ac53015479fa89f2ab612be7cb83de77dc7))
+* make release-please target master branch and update package.json version to match with release branch ([002c1c1](https://github.com/Projgen/core_v2/commit/002c1c15ef8b60e71286363a5edb69e785b32c00))
+
 ## [2.1.3](https://github.com/Projgen/core_v2/compare/v2.1.2...v2.1.3) (2026-05-05)
 
 
