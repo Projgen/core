@@ -7,9 +7,8 @@ import steps from "./steps/steps.ts";
 const TEMPLATE_ENGINE_VERSION = "2.0";
 
 const assertTemplateEngineCompatibility = (template: Template): void => {
-  const [major = NaN, minor = NaN] = TEMPLATE_ENGINE_VERSION
-    .split(".")
-    .map(Number);
+  const [major = NaN, minor = NaN] =
+    TEMPLATE_ENGINE_VERSION.split(".").map(Number);
   const [templateMajor = NaN, templateMinor = NaN] = template.engineVersion
     .split(".")
     .map(Number);
