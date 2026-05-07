@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/Projgen/core_v2/compare/v2.2.0...v2.3.0) (2026-05-07)
+
+
+### Features
+
+* variable prompt skipping mit  y ([#62](https://github.com/Projgen/core_v2/issues/62)) ([b63136d](https://github.com/Projgen/core_v2/commit/b63136da249583e6ac7180c335314c55f2fe6e7f))
+
 ## [2.2.0](https://github.com/Projgen/core_v2/compare/v2.1.3...v2.2.0) (2026-05-06)
 
 
