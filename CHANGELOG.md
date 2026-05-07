@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.4.0](https://github.com/Projgen/core_v2/compare/v2.3.0...v2.4.0) (2026-05-07)
+
+
+### Features
+
+* add variable input support via flags in create command ([d316cbf](https://github.com/Projgen/core_v2/commit/d316cbfb3e982e887858b06f2a4272e01786d25b))
+
+## [2.3.0](https://github.com/Projgen/core_v2/compare/v2.2.0...v2.3.0) (2026-05-07)
+
+
+### Features
+
+* variable prompt skipping mit  y ([#62](https://github.com/Projgen/core_v2/issues/62)) ([b63136d](https://github.com/Projgen/core_v2/commit/b63136da249583e6ac7180c335314c55f2fe6e7f))
+
+## [2.2.0](https://github.com/Projgen/core_v2/compare/v2.1.3...v2.2.0) (2026-05-06)
+
+
+### Features
+
+* Better Error Handling
+* List Command
+* New Release ([#59](https://github.com/Projgen/core_v2/issues/59)) ([8a2c3d2](https://github.com/Projgen/core_v2/commit/8a2c3d20eaeb8652d4e4c64f6f849ef3cba96e02))
+
 ## [2.1.3](https://github.com/Projgen/core_v2/compare/v2.1.2...v2.1.3) (2026-05-05)
 
 
