@@ -19,7 +19,7 @@ jobs:
         with:
           release-type: node
           token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: release
+          target-branch: master
 
       - uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
