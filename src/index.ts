@@ -19,6 +19,7 @@ import {
   UserCancellationError,
 } from "./core/errors.ts";
 import { getTemplate, getTemplateFromFilePath } from "./core/templateFinder.ts";
+import { getTemplateJsonSchema } from "./core/templateSchema.ts";
 
 const create = async (
   templateSource: string,
@@ -140,6 +141,11 @@ const removeHandler = async (
   );
 };
 
+const schemaHandler = async () => {
+  const schema = getTemplateJsonSchema();
+  console.log(JSON.stringify(schema, null, 2));
+};
+
 yargs()
   .scriptName("projgen")
   .usage("$0 <command> [args]")
@@ -197,6 +203,11 @@ yargs()
       });
     },
     handler: removeHandler,
+  })
+  .command({
+    command: "schema",
+    describe: "Output the JSON schema for template files",
+    handler: schemaHandler,
   })
   .help()
   .parse(hideBin(process.argv));

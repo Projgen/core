@@ -1,0 +1,480 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "engineVersion": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "variables": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "string"
+              },
+              "default": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "number"
+              },
+              "default": {
+                "type": "number"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "boolean"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "message",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "select"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              },
+              "multiple": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required",
+              "options"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "run"
+              },
+              "when": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variable": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "eq",
+                        "neq",
+                        "gt",
+                        "lt",
+                        "gte",
+                        "lte",
+                        "contains",
+                        "notContains",
+                        "isNull",
+                        "isNotNull",
+                        "matches",
+                        "notMatches"
+                      ]
+                    },
+                    "value": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  },
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "continueOnError": {
+                "type": "boolean"
+              },
+              "command": {
+                "type": "string"
+              },
+              "cwd": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "command"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "write"
+              },
+              "when": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variable": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "eq",
+                        "neq",
+                        "gt",
+                        "lt",
+                        "gte",
+                        "lte",
+                        "contains",
+                        "notContains",
+                        "isNull",
+                        "isNotNull",
+                        "matches",
+                        "notMatches"
+                      ]
+                    },
+                    "value": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  },
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "continueOnError": {
+                "type": "boolean"
+              },
+              "path": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "path"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "patch-text"
+              },
+              "when": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variable": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "eq",
+                        "neq",
+                        "gt",
+                        "lt",
+                        "gte",
+                        "lte",
+                        "contains",
+                        "notContains",
+                        "isNull",
+                        "isNotNull",
+                        "matches",
+                        "notMatches"
+                      ]
+                    },
+                    "value": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  },
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "continueOnError": {
+                "type": "boolean"
+              },
+              "path": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "replace",
+                  "insert-after",
+                  "insert-before",
+                  "append",
+                  "prepend"
+                ]
+              },
+              "find": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "path",
+              "operation"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "patch-json"
+              },
+              "when": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variable": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "eq",
+                        "neq",
+                        "gt",
+                        "lt",
+                        "gte",
+                        "lte",
+                        "contains",
+                        "notContains",
+                        "isNull",
+                        "isNotNull",
+                        "matches",
+                        "notMatches"
+                      ]
+                    },
+                    "value": {
+                      "$ref": "#/$defs/__schema0"
+                    }
+                  },
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "continueOnError": {
+                "type": "boolean"
+              },
+              "path": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "set",
+                  "append",
+                  "remove"
+                ]
+              },
+              "jsonPath": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "value": {
+                "$ref": "#/$defs/__schema0"
+              }
+            },
+            "required": [
+              "type",
+              "path",
+              "operation",
+              "jsonPath"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "description",
+    "version",
+    "engineVersion",
+    "author",
+    "variables",
+    "steps"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema0"
+          }
+        },
+        {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/__schema0"
+          }
+        }
+      ]
+    }
+  }
+}
