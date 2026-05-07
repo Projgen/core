@@ -74,7 +74,7 @@ export const VariableSchema = z.discriminatedUnion("type", [
 export const abstractStepSchema = z.object({
   type: z.string(), // The type of the step, used to determine how to execute the step
   when: z.array(StepConditionSchema).optional(), // An optional condition that determines whether this step should be executed, if not provided the step will always be executed
-  continueOnError: z.boolean().optional().default(false), // Whether to continue executing the next steps if this step fails, defaults to false
+  continueOnError: z.boolean().optional(), // Whether to continue executing the next steps if this step fails, handled as false by default
 });
 
 // A Step to execute shell commands
