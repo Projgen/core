@@ -14,10 +14,13 @@ const assertTemplateEngineCompatibility = (template: Template): void => {
   }
 };
 
-export const scaffoldFromTemplate = async (template: Template) => {
+export const scaffoldFromTemplate = async (
+  template: Template,
+  skipPrompts: boolean,
+) => {
   assertTemplateEngineCompatibility(template);
   printTemplateInfo(template);
-  const variables = await promptForVariables(template.variables);
+  const variables = await promptForVariables(template.variables, skipPrompts);
 
   // Run Steps
   for (const step of template.steps) {
@@ -50,11 +53,27 @@ const printTemplateInfo = (
 
 const promptForVariables = async (
   variables: Variable[],
+  skipPrompts: boolean = false,
   _prompter: Prompter = prompter,
 ): Promise<VariableValue[]> => {
   // Implementation for prompting users for variable values
   let variableValues: VariableValue[] = [];
   for (const variable of variables) {
+    if (skipPrompts) {
+      if ("default" in variable && variable.default !== undefined) {
+        variableValues.push({
+          name: variable.name,
+          content: variable.default,
+        });
+        continue;
+      } else if ("required" in variable && !variable.required) {
+        variableValues.push({
+          name: variable.name,
+          content: null,
+        });
+        continue;
+      }
+    }
     switch (variable.type) {
       case "string":
         const value = await _prompter.promptForString(variable);
