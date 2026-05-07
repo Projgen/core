@@ -121,6 +121,16 @@ const listHandler = async () => {
   printRegistry(registry);
 };
 
+const removeHandler = async (
+  argv: ArgumentsCamelCase<{ alias: string | undefined }>,
+) => {
+  if (!argv.alias) {
+    console.error("Error: Alias is required.");
+    return;
+  }
+  console.log("Remove command is not implemented yet.");
+};
+
 yargs()
   .scriptName("projgen")
   .usage("$0 <command> [args]")
@@ -166,6 +176,18 @@ yargs()
     describe: "List all registry entries",
     aliases: ["ls"],
     handler: listHandler,
+  })
+  .command({
+    command: "remove [alias]",
+    describe: "Remove a template from the registry",
+    aliases: ["rm"],
+    builder: (yargs) => {
+      return yargs.positional("alias", {
+        type: "string",
+        describe: "Alias of the template to remove from the registry",
+      });
+    },
+    handler: removeHandler,
   })
   .help()
   .parse(hideBin(process.argv));
