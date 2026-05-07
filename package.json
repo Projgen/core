@@ -26,7 +26,7 @@
   },
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"ts-node ./src/index.ts\"",
-    "build": "tsc --outDir dist",
+    "build": "tsc --outDir dist && node dist/schema.js > template.schema.json",
     "prepublishOnly": "npm run build",
     "start": "node dist/index.js",
     "test": "vitest run src/",
