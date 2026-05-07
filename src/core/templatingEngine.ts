@@ -4,12 +4,29 @@ import prompter, { type Prompter } from "../utils/prompter.ts";
 import { ProjgenError, TemplateError } from "./errors.ts";
 import steps from "./steps/steps.ts";
 
-const TEMPLATE_ENGINE_VERSION = 1;
+const TEMPLATE_ENGINE_VERSION = "2.0";
 
 const assertTemplateEngineCompatibility = (template: Template): void => {
-  if (template.engineVersion !== TEMPLATE_ENGINE_VERSION) {
+  const [major = NaN, minor = NaN] =
+    TEMPLATE_ENGINE_VERSION.split(".").map(Number);
+  const [templateMajor = NaN, templateMinor = NaN] = template.engineVersion
+    .split(".")
+    .map(Number);
+
+  if (
+    Number.isNaN(major) ||
+    Number.isNaN(minor) ||
+    Number.isNaN(templateMajor) ||
+    Number.isNaN(templateMinor)
+  ) {
     throw new TemplateError(
-      `Error: Template version ${template.engineVersion} is not compatible with template engine version ${TEMPLATE_ENGINE_VERSION}.`,
+      `Invalid template engine version format. Template requires version ${template.engineVersion}, but current version is ${TEMPLATE_ENGINE_VERSION}.`,
+    );
+  }
+
+  if (templateMajor !== major || templateMinor > minor) {
+    throw new TemplateError(
+      `Incompatible template engine version. Template requires version ${template.engineVersion}, but current version is ${TEMPLATE_ENGINE_VERSION}.`,
     );
   }
 };
@@ -29,21 +46,31 @@ export const scaffoldFromTemplate = async (
 
   // Run Steps
   for (const step of template.steps) {
-    switch (step.type) {
-      case "run":
-        await steps.runStep(step, variables);
-        break;
-      case "write":
-        await steps.writeStep(step, variables);
-        break;
-      case "patch-text":
-        await steps.patchTextStep(step, variables);
-        break;
-      case "patch-json":
-        await steps.patchJsonStep(step, variables);
-        break;
-      default:
-        console.warn("Unknown step type"); // This should never happen due to the schema validation, but it's good to have just in case
+    try {
+      switch (step.type) {
+        case "run":
+          await steps.runStep(step, variables);
+          break;
+        case "write":
+          await steps.writeStep(step, variables);
+          break;
+        case "patch-text":
+          await steps.patchTextStep(step, variables);
+          break;
+        case "patch-json":
+          await steps.patchJsonStep(step, variables);
+          break;
+        default:
+          console.warn("Unknown step type"); // This should never happen due to the schema validation, but it's good to have just in case
+      }
+    } catch (error) {
+      if (!step.continueOnError) {
+        throw error;
+      }
+
+      console.error(
+        `Step "${step.type}" failed, continuing because continueOnError is enabled.`,
+      );
     }
   }
 };
