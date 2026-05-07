@@ -1,8 +1,10 @@
+import { tr } from "zod/locales";
 import { type Template, type Variable } from "../types/template.ts";
 import type { Variable as VariableValue } from "../types/variable.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
-import { TemplateError } from "./errors.ts";
+import { ProjgenError, TemplateError } from "./errors.ts";
 import steps from "./steps/steps.ts";
+import { tryCatchSync } from "../utils/tryCatch.ts";
 
 const TEMPLATE_ENGINE_VERSION = 1;
 
@@ -17,10 +19,15 @@ const assertTemplateEngineCompatibility = (template: Template): void => {
 export const scaffoldFromTemplate = async (
   template: Template,
   skipPrompts: boolean,
+  variableArguments: Record<string, unknown> = {},
 ) => {
   assertTemplateEngineCompatibility(template);
   printTemplateInfo(template);
-  const variables = await promptForVariables(template.variables, skipPrompts);
+  const variables = await promptForVariables(
+    template.variables,
+    skipPrompts,
+    variableArguments,
+  );
 
   // Run Steps
   for (const step of template.steps) {
@@ -54,11 +61,80 @@ const printTemplateInfo = (
 const promptForVariables = async (
   variables: Variable[],
   skipPrompts: boolean = false,
+  variableArguments: Record<string, unknown> = {},
   _prompter: Prompter = prompter,
 ): Promise<VariableValue[]> => {
   // Implementation for prompting users for variable values
   let variableValues: VariableValue[] = [];
   for (const variable of variables) {
+    if (variable.name in variableArguments) {
+      console.log(`Using provided value for variable "${variable.name}".`);
+      switch (variable.type) {
+        case "string":
+          variableValues.push({
+            name: variable.name,
+            content: String(variableArguments[variable.name]),
+          });
+          continue;
+        case "number":
+          const numValue = Number(variableArguments[variable.name]);
+          if (isNaN(numValue)) {
+            throw new ProjgenError(
+              `Invalid number provided for variable "${variable.name}".`,
+            );
+          }
+          variableValues.push({
+            name: variable.name,
+            content: numValue,
+          });
+          continue;
+        case "boolean":
+          if (typeof variableArguments[variable.name] == "boolean") {
+            variableValues.push({
+              name: variable.name,
+              content: variableArguments[variable.name] as boolean,
+            });
+            continue;
+          }
+          const boolValue = String(
+            variableArguments[variable.name],
+          ).toLowerCase();
+          if (boolValue === "true") {
+            variableValues.push({
+              name: variable.name,
+              content: true,
+            });
+          } else if (boolValue === "false") {
+            variableValues.push({
+              name: variable.name,
+              content: false,
+            });
+          } else {
+            throw new ProjgenError(
+              `Invalid boolean provided for variable "${variable.name}". Use true or false.`,
+            );
+          }
+          continue;
+        case "select":
+          const selectValue = String(variableArguments[variable.name]);
+          if (!variable.options || !variable.options.includes(selectValue)) {
+            throw new ProjgenError(
+              `Invalid option provided for variable "${variable.name}". Valid options are: ${variable.options?.join(
+                ", ",
+              )}.`,
+            );
+          }
+          variableValues.push({
+            name: variable.name,
+            content: selectValue,
+          });
+          continue;
+        default:
+          throw new ProjgenError(
+            `Unknown variable type for variable ${variable}.`,
+          );
+      }
+    }
     if (skipPrompts) {
       if ("default" in variable && variable.default !== undefined) {
         variableValues.push({

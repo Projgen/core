@@ -20,7 +20,11 @@ import {
 } from "./core/errors.ts";
 import { getTemplate, getTemplateFromFilePath } from "./core/templateFinder.ts";
 
-const create = async (templateSource: string, skipPrompts: boolean) => {
+const create = async (
+  templateSource: string,
+  skipPrompts: boolean,
+  variableArguments: Record<string, unknown> = {},
+) => {
   const resolved = await getTemplate(templateSource);
 
   if (resolved.sourceKind === "remote-url") {
@@ -57,7 +61,7 @@ const create = async (templateSource: string, skipPrompts: boolean) => {
       await addTemplateToRegistry(resolved.template, aliasResult.content);
     }
   }
-  await scaffoldFromTemplate(resolved.template, skipPrompts);
+  await scaffoldFromTemplate(resolved.template, skipPrompts, variableArguments);
 };
 
 /*
@@ -78,7 +82,7 @@ const createHandler = async (
     return;
   }
   const creationResult = await tryCatch(
-    create(argv.templatePath, argv.skipPrompts),
+    create(argv.templatePath, argv.skipPrompts, argv),
   );
 
   if (creationResult.error) {
