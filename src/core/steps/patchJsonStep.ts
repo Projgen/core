@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
-import type { PatchJsonStep } from "../../types/template";
-import type { Variable } from "../../types/variable";
+import type { PatchJsonStep } from "../../templateEngine/types/template.ts";
+import type { Variable } from "../../templateEngine/types/variable.ts";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 import { checkCondition } from "../conditional.ts";
 import { writeFile } from "fs/promises";

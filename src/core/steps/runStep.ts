@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
-import type { RunStep } from "../../types/template";
-import type { Variable } from "../../types/variable";
+import type { RunStep } from "../../templateEngine/types/template.ts";
+import type { Variable } from "../../templateEngine/types/variable.ts";
 import { checkCondition } from "../conditional.ts";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 

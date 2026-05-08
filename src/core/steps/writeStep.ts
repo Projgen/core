@@ -1,5 +1,5 @@
-import type { WriteStep } from "../../types/template";
-import type { Variable } from "../../types/variable";
+import type { WriteStep } from "../../templateEngine/types/template.ts";
+import type { Variable } from "../../templateEngine/types/variable.ts";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";

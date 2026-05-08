@@ -1,4 +1,4 @@
-import type { Variable } from "../types/variable";
+import type { Variable } from "../templateEngine/types/variable";
 
 export const resolveVariablesInString = (
   str: string,

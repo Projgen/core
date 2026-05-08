@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import type { PatchTextStep } from "../../../types/template.ts";
-import type { Variable } from "../../../types/variable.ts";
+import type { PatchTextStep } from "../../../templateEngine/types/template.ts";
+import type { Variable } from "../../../templateEngine/types/variable.ts";
 
 const { readFileMock, writeFileMock } = vi.hoisted(() => ({
   readFileMock: vi.fn(async (_path: string, _encoding: string) => {

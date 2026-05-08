@@ -18,7 +18,7 @@ vi.mock("../../core/steps/steps.ts", () => ({
 }));
 
 import { scaffoldFromTemplate } from "../../core/templatingEngine.ts";
-import type { Template } from "../../types/template.ts";
+import type { Template } from "../../templateEngine/types/template.ts";
 
 describe("scaffoldFromTemplate", () => {
   beforeEach(() => {

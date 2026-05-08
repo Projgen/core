@@ -1,5 +1,8 @@
 import { fileURLToPath } from "node:url";
-import { TemplateSchema, type Template } from "../types/template.ts";
+import {
+  TemplateSchema,
+  type Template,
+} from "../templateEngine/types/template.ts";
 import { ProjgenError, TemplateError } from "./errors.ts";
 import { getTemplatePathFromRegistry } from "./registryEngine.ts";
 import { parseURL } from "../utils/parseUrl.ts";
