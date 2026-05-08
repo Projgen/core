@@ -3,7 +3,7 @@ import type { Variable } from "../types/variable.ts";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { checkCondition } from "../../core/conditional.ts";
+import { checkCondition } from "../conditionals/conditional.ts";
 
 export default async (step: WriteStep, variables: Variable[]) => {
   if (

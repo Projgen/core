@@ -1,7 +1,7 @@
 import { type Template, type Variable } from "./schemas/template.ts";
 import type { Variable as VariableValue } from "./types/variable.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
-import { ProjgenError, TemplateError } from "./errors.ts";
+import { ProjgenError, TemplateError } from "../shared/errors/errors.ts";
 import steps from "./steps/steps.ts";
 
 const TEMPLATE_ENGINE_VERSION = "2.0";

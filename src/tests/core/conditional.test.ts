@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { checkCondition } from "../../core/conditional.ts";
+import { checkCondition } from "../../template-engine/conditionals/conditional.ts";
 import type { StepCondition } from "../../template-engine/schemas/template.ts";
 import type { Variable } from "../../template-engine/types/variable.ts";
 

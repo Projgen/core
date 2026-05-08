@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { type Registry, registrySchema } from "./types/registry.ts";
 import { getConfigDir } from "../utils/getConfigDir.ts";
 import type { Template } from "../template-engine/schemas/template.ts";
-import { ProjgenError, RegistryError } from "./errors.ts";
+import { ProjgenError, RegistryError } from "../shared/errors/errors.ts";
 import { printTable } from "../utils/printTable.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;
