@@ -3,7 +3,7 @@ import {
   TemplateSchema,
   type Template,
 } from "../template-engine/schemas/template.ts";
-import { ProjgenError, TemplateError } from "../shared/errors/errors.ts";
+import { ProjgenError, TemplateError } from "../shared/errors/projgen-error.ts";
 import { getTemplatePathFromRegistry } from "../registry-engine/registryEngine.ts";
 import { parseURL } from "../utils/parseUrl.ts";
 import { blockCrossOriginRedirect } from "../utils/blockCrossOriginRedirect.ts";

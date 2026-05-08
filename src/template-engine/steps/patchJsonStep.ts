@@ -4,7 +4,7 @@ import type { Variable } from "../types/variable.ts";
 import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
 import { checkCondition } from "../conditionals/conditional.ts";
 import { writeFile } from "fs/promises";
-import { TemplateError } from "../../shared/errors/errors.ts";
+import { TemplateError } from "../../shared/errors/projgen-error.ts";
 
 export default async (step: PatchJsonStep, variables: Variable[]) => {
   if (

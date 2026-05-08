@@ -17,7 +17,7 @@ import {
   ProjgenError,
   TemplateError,
   UserCancellationError,
-} from "../shared/errors/errors.ts";
+} from "../shared/errors/projgen-error.ts";
 import {
   getTemplate,
   getTemplateFromFilePath,
