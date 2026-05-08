@@ -31,6 +31,7 @@
     "start": "node dist/CLI/index.js",
     "test": "vitest run src/",
     "test:coverage": "vitest run src/ --coverage",
+    "test:watch": "vitest watch src/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier . --write",
