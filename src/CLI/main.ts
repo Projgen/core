@@ -2,27 +2,27 @@
 
 import yargs, { type ArgumentsCamelCase } from "yargs";
 import { hideBin } from "yargs/helpers";
-import { tryCatch } from "./utils/tryCatch.ts";
-import { scaffoldFromTemplate } from "./template-engine/templatingEngine.ts";
+import { tryCatch } from "../utils/tryCatch.ts";
+import { scaffoldFromTemplate } from "../template-engine/templatingEngine.ts";
 import {
   addTemplateToRegistry,
   loadRegistry,
   printRegistry,
   removeTemplateFromRegistry,
-} from "./registry-engine/registryEngine.ts";
+} from "../registry-engine/registryEngine.ts";
 
-import prompter from "./utils/prompter.ts";
+import prompter from "../utils/prompter.ts";
 import {
   logExpectedError,
   ProjgenError,
   TemplateError,
   UserCancellationError,
-} from "./shared/errors/errors.ts";
+} from "../shared/errors/errors.ts";
 import {
   getTemplate,
   getTemplateFromFilePath,
-} from "./template-service/templateFinder.ts";
-import { getTemplateJsonSchema } from "./template-engine/schemas/templateSchema.ts";
+} from "../template-service/templateFinder.ts";
+import { getTemplateJsonSchema } from "../template-engine/schemas/templateSchema.ts";
 
 const create = async (
   templateSource: string,

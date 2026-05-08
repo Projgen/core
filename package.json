@@ -8,9 +8,9 @@
     "cli"
   ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/CLI/index.js",
   "bin": {
-    "projgen": "dist/index.js"
+    "projgen": "dist/CLI/index.js"
   },
   "files": [
     "dist",
@@ -25,10 +25,10 @@
     "url": "git+https://github.com/Projgen/core_v2.git"
   },
   "scripts": {
-    "dev": "nodemon --watch src --ext ts --exec \"ts-node ./src/index.ts\"",
+    "dev": "nodemon --watch src --ext ts --exec \"ts-node ./src/CLI/index.ts\"",
     "build": "tsc --outDir dist && node dist/scripts/schema.js > template.schema.json",
     "prepublishOnly": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node dist/CLI/index.js",
     "test": "vitest run src/",
     "test:coverage": "vitest run src/ --coverage",
     "lint": "eslint . --ext .ts",
