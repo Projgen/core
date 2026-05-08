@@ -1,7 +1,7 @@
-import { ProjgenError } from "../shared/errors/projgen-error.ts";
+import { ProjgenError } from "../../errors/projgen-error.ts";
 
 // Throws if a fetch response was a redirect to a different origin
-export const blockCrossOriginRedirect = (
+export const assertSameOriginRedirect = (
   response: Response,
   originalUrl: URL,
 ): void => {

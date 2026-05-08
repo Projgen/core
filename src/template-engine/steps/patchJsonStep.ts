@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { type PatchJsonStep, TemplateError } from "@/template-domain";
 import type { Variable } from "../types/variable.ts";
-import { resolveVariablesInString } from "@/utils/replaceVariable";
+import { resolveVariablesInString } from "@/template-engine/application/replace-variable-in-string.ts";
 import { checkCondition } from "../conditionals";
 
 export default async (step: PatchJsonStep, variables: Variable[]) => {

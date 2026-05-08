@@ -7,3 +7,5 @@ export const selectVariableSchema = baseVariableSchema.safeExtend({
   required: z.boolean(), // Whether the user must provide a value when prompted, is ignored for single selects (one must be selected there)
   options: z.array(z.union([z.string(), z.number()])), // An array of option for the select variable type, should only be provided if the variable type is "select", will be ignored otherwhise
 });
+
+export type SelectVariable = z.infer<typeof selectVariableSchema>;

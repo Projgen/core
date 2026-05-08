@@ -1,20 +1,23 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { type Registry, registrySchema } from "./schemas";
-import { getConfigDir } from "../utils/getConfigDir.ts";
+import {
+  type Registry,
+  registrySchema,
+} from "../registry-domain/schemas/index.ts";
+import { getAppDataDir } from "../shared/infrastructure/app-data/get-app-data-dir.ts";
 import type { Template } from "@/template-domain";
 import { ProjgenError } from "@/shared";
 import { RegistryError } from "./errors";
-import { printTable } from "../utils/printTable.ts";
+import { printTable } from "../cli/presentation/print-table.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;
 
 const getRegistryPath = (): string => {
-  return path.join(getConfigDir(), "registry.json");
+  return path.join(getAppDataDir(), "registry.json");
 };
 
 const ensureRegistryExists = async (): Promise<void> => {
-  const configDir = getConfigDir();
+  const configDir = getAppDataDir();
 
   const registryPath = getRegistryPath();
 
@@ -131,7 +134,7 @@ export const getTemplatePathFromRegistry = async (
     return null;
   }
 
-  return path.join(getConfigDir(), entry.path);
+  return path.join(getAppDataDir(), entry.path);
 };
 
 export const addTemplateToRegistry = async (
@@ -139,7 +142,7 @@ export const addTemplateToRegistry = async (
   specialAlias: string | null = null,
 ): Promise<void> => {
   const registry = await loadRegistry();
-  const configDir = getConfigDir();
+  const configDir = getAppDataDir();
   const templatePath = path.join(configDir, `${template.id}.json`);
 
   const alias = specialAlias || template.id;
@@ -175,40 +178,6 @@ export const addTemplateToRegistry = async (
   );
 };
 
-export const printRegistryEntries = (
-  entries: { alias: string; path: string }[],
-) => {
-  if (entries.length === 0) {
-    console.log("No templates in registry.");
-    return;
-  }
-
-  printTable(
-    entries.map((entry) => [entry.alias, entry.path]),
-    ["Alias", "Path"],
-  );
-};
-
-export const printlinkedRegistries = (linkedRegistries: string[]) => {
-  if (linkedRegistries.length === 0) {
-    console.log("No linked registries.");
-    return;
-  }
-
-  printTable(
-    linkedRegistries.map((url) => [url]),
-    ["Linked Registry URL"],
-  );
-};
-
-export const printRegistry = (registry: Registry) => {
-  console.log(`Registry Version: ${registry.version}`);
-  console.log("\nTemplates:");
-  printRegistryEntries(registry.templates);
-  console.log("\nLinked Registries:");
-  printlinkedRegistries(registry.linkedRegistries ?? []);
-};
-
 export const removeTemplateFromRegistry = async (
   alias: string,
 ): Promise<void> => {
@@ -232,6 +201,6 @@ export const removeTemplateFromRegistry = async (
     JSON.stringify(registry, null, 2),
     "utf8",
   );
-  const templatePath = path.join(getConfigDir(), removedEntry.path);
+  const templatePath = path.join(getAppDataDir(), removedEntry.path);
   await fs.unlink(templatePath);
 };

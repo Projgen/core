@@ -3,7 +3,7 @@ import type {
   SelectVariable,
   NumberVariable,
   StringVariable,
-} from "../template-engine/schemas/template.ts";
+} from "@/template-domain";
 import inquirer from "inquirer";
 
 const promptForString = async (

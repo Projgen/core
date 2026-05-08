@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import type { RunStep } from "@/template-domain";
 import type { Variable } from "../types/variable.ts";
 import { checkCondition } from "../conditionals";
-import { resolveVariablesInString } from "@/utils/replaceVariable";
+import { resolveVariablesInString } from "@/template-engine/application/replace-variable-in-string.ts";
 
 export default async (step: RunStep, variables: Variable[]) => {
   if (

@@ -6,11 +6,11 @@ import {
 } from "@/template-domain";
 import { ProjgenError } from "@/shared";
 import { getTemplatePathFromRegistry } from "../registry-engine/registryEngine.ts";
-import { parseURL } from "../utils/parseUrl.ts";
-import { blockCrossOriginRedirect } from "../utils/blockCrossOriginRedirect.ts";
+import { parseURL } from "../shared/url/parse-url.ts";
+import { assertSameOriginRedirect } from "../shared/infrastructure/http/assert-same-origin-redirect.ts";
 import path from "node:path";
 import fs from "node:fs";
-import { tryCatchSync } from "../utils/tryCatch.ts";
+import { tryCatchSync } from "../shared/utils/tryCatch.ts";
 
 export type ResolvedTemplate = {
   template: Template;
@@ -97,7 +97,7 @@ const getTemplateFromUrl = async (templateUrl: URL): Promise<Template> => {
     );
   }
 
-  blockCrossOriginRedirect(response, templateUrl);
+  assertSameOriginRedirect(response, templateUrl);
 
   const templateData = await response.json();
   const validatedTemplate = TemplateSchema.safeParse(templateData);

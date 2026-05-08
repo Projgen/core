@@ -2,20 +2,20 @@
 
 import yargs, { type ArgumentsCamelCase } from "yargs";
 import { hideBin } from "yargs/helpers";
-import { tryCatch } from "../utils/tryCatch.ts";
-import { scaffoldFromTemplate } from "../template-engine/templatingEngine.ts";
+import { tryCatch } from "../shared/utils/tryCatch.ts";
+import { scaffoldFromTemplate } from "@/template-engine";
 import {
   addTemplateToRegistry,
   loadRegistry,
-  printRegistry,
   removeTemplateFromRegistry,
-} from "../registry-engine/registryEngine.ts";
-import prompter from "../utils/prompter.ts";
+} from "@/registry-engine";
 
-import { printExpectedError } from "./presenters/print-error.ts";
-import { ProjgenError } from "../shared/errors/projgen-error.ts";
+import prompter from "../utils/prompter.ts";
+import { printRegistry, printExpectedError } from "./presenters";
+
+import { ProjgenError } from "@/shared";
 import { TemplateError } from "@/template-domain";
-import { UserCancellationError } from "./errors/user-cancellation-error.ts";
+import { UserCancellationError } from "./errors";
 
 import {
   getTemplate,

@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import type { PatchTextStep } from "@/template-domain";
 import type { Variable } from "../types/variable.ts";
-import { resolveVariablesInString } from "@/utils/replaceVariable";
+import { resolveVariablesInString } from "@/template-engine/application/replace-variable-in-string.ts";
 import { checkCondition } from "../conditionals";
 
 export default async (step: PatchTextStep, variables: Variable[]) => {
