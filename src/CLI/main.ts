@@ -6,7 +6,7 @@ import { tryCatch } from "../shared/utils/tryCatch.ts";
 import { scaffoldFromTemplate } from "@/template-engine";
 import {
   addTemplateToRegistry,
-  loadRegistry,
+  findRegistry,
   removeTemplateFromRegistry,
 } from "@/registry-engine";
 
@@ -125,7 +125,7 @@ const addHandler = async (
 };
 
 const listHandler = async () => {
-  const registry = await loadRegistry();
+  const registry = await findRegistry();
   printRegistry(registry);
 };
 

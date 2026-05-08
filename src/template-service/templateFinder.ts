@@ -6,7 +6,7 @@ import {
 } from "@/template-domain";
 import { ProjgenError } from "@/shared";
 import { getTemplatePathFromRegistry } from "../registry-engine/registryEngine.ts";
-import { parseURL } from "../shared/url/parse-url.ts";
+import { parseURL } from "../shared/utils/parse-url.ts";
 import { assertSameOriginRedirect } from "../shared/infrastructure/http/assert-same-origin-redirect.ts";
 import path from "node:path";
 import fs from "node:fs";
