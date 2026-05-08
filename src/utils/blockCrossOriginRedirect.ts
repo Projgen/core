@@ -1,4 +1,4 @@
-import { ProjgenError } from "../core/errors.ts";
+import { ProjgenError } from "../shared/errors/errors.ts";
 
 // Throws if a fetch response was a redirect to a different origin
 export const blockCrossOriginRedirect = (

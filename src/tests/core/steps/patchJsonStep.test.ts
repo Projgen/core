@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import type { PatchJsonStep } from "../../../templateEngine/types/template.ts";
-import type { Variable } from "../../../templateEngine/types/variable.ts";
+import type { PatchJsonStep } from "../../../template-engine/schemas/template.ts";
+import type { Variable } from "../../../template-engine/types/variable.ts";
 
 const { readFileMock, writeFileMock } = vi.hoisted(() => ({
   readFileMock: vi.fn(async (_path: string, _encoding: string) => {
@@ -16,7 +16,7 @@ vi.mock("node:fs/promises", () => ({
   writeFile: writeFileMock,
 }));
 
-import patchJsonStep from "../../../core/steps/patchJsonStep.ts";
+import patchJsonStep from "../../../template-engine/steps/patchJsonStep.ts";
 
 describe("patchJsonStep", () => {
   const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});

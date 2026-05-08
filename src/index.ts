@@ -3,13 +3,13 @@
 import yargs, { type ArgumentsCamelCase } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { tryCatch } from "./utils/tryCatch.ts";
-import { scaffoldFromTemplate } from "./core/templatingEngine.ts";
+import { scaffoldFromTemplate } from "./template-engine/templatingEngine.ts";
 import {
   addTemplateToRegistry,
   loadRegistry,
   printRegistry,
   removeTemplateFromRegistry,
-} from "./core/registryEngine.ts";
+} from "./registry-engine/registryEngine.ts";
 
 import prompter from "./utils/prompter.ts";
 import {
@@ -17,9 +17,12 @@ import {
   ProjgenError,
   TemplateError,
   UserCancellationError,
-} from "./core/errors.ts";
-import { getTemplate, getTemplateFromFilePath } from "./core/templateFinder.ts";
-import { getTemplateJsonSchema } from "./core/templateSchema.ts";
+} from "./shared/errors/errors.ts";
+import {
+  getTemplate,
+  getTemplateFromFilePath,
+} from "./template-service/templateFinder.ts";
+import { getTemplateJsonSchema } from "./template-engine/schemas/templateSchema.ts";
 
 const create = async (
   templateSource: string,

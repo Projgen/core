@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import type { WriteStep } from "../../../templateEngine/types/template.ts";
-import type { Variable } from "../../../templateEngine/types/variable.ts";
+import type { WriteStep } from "../../../template-engine/schemas/template.ts";
+import type { Variable } from "../../../template-engine/types/variable.ts";
 
 const { mkdirMock, writeFileMock } = vi.hoisted(() => ({
   mkdirMock: vi.fn(async (_path: string, _options: { recursive: boolean }) => {
@@ -16,7 +16,7 @@ vi.mock("node:fs/promises", () => ({
   writeFile: writeFileMock,
 }));
 
-import writeStep from "../../../core/steps/writeStep.ts";
+import writeStep from "../../../template-engine/steps/writeStep.ts";
 
 describe("writeStep", () => {
   const fetchMock = vi.fn();

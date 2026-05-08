@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import type { PatchTextStep } from "../../../templateEngine/types/template.ts";
-import type { Variable } from "../../../templateEngine/types/variable.ts";
+import type { PatchTextStep } from "../../../template-engine/schemas/template.ts";
+import type { Variable } from "../../../template-engine/types/variable.ts";
 
 const { readFileMock, writeFileMock } = vi.hoisted(() => ({
   readFileMock: vi.fn(async (_path: string, _encoding: string) => {
@@ -16,7 +16,7 @@ vi.mock("node:fs/promises", () => ({
   writeFile: writeFileMock,
 }));
 
-import patchTextStep from "../../../core/steps/patchTextStep.ts";
+import patchTextStep from "../../../template-engine/steps/patchTextStep.ts";
 
 describe("patchTextStep", () => {
   const fetchMock = vi.fn();

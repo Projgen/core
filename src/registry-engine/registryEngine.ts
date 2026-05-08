@@ -1,11 +1,8 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import {
-  type Registry,
-  registrySchema,
-} from "../registryEngine/types/registry.ts";
+import { type Registry, registrySchema } from "./types/registry.ts";
 import { getConfigDir } from "../utils/getConfigDir.ts";
-import type { Template } from "../templateEngine/types/template.ts";
+import type { Template } from "../template-engine/schemas/template.ts";
 import { ProjgenError, RegistryError } from "./errors.ts";
 import { printTable } from "../utils/printTable.ts";
 

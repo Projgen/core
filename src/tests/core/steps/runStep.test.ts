@@ -9,9 +9,9 @@ vi.mock("node:child_process", () => ({
   spawn: spawnMock,
 }));
 
-import runStep from "../../../core/steps/runStep.ts";
-import type { RunStep } from "../../../templateEngine/types/template.ts";
-import type { Variable } from "../../../templateEngine/types/variable.ts";
+import runStep from "../../../template-engine/steps/runStep.ts";
+import type { RunStep } from "../../../template-engine/schemas/template.ts";
+import type { Variable } from "../../../template-engine/types/variable.ts";
 
 describe("runStep", () => {
   const stdoutWriteSpy = vi

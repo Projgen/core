@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { TemplateSchema } from "../templateEngine/types/template.ts";
+import { TemplateSchema } from "./template.ts";
 
 export const getTemplateJsonSchema = (): unknown => {
   return z.toJSONSchema(TemplateSchema);

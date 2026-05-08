@@ -1,4 +1,4 @@
-import type { StepCondition } from "../templateEngine/types/template.ts";
+import type { StepCondition } from "../templateEngine/schemas/template.ts";
 import type { Variable } from "../templateEngine/types/variable.ts";
 import { TemplateError } from "./errors.ts";
 
