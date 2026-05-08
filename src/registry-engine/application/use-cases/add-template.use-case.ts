@@ -1,18 +1,15 @@
 import path from "path";
 import fs from "fs/promises";
 
-import {
-  getRegistryPath,
-  readRegistry,
-} from "@/registry-engine/infrastructure";
+import { getRegistryPath, readRegistry } from "../../infrastructure";
 import { getAppDataDir } from "@/shared";
-import type { Template } from "@/template-domain";
 import { RegistryError } from "@/registry-engine/errors";
+import type { AddTemplateInput } from "../dto/add-template.input";
 
-export const addTemplateToRegistry = async (
-  template: Template,
-  specialAlias: string | null = null,
-): Promise<void> => {
+export const addTemplateToRegistry = async ({
+  template,
+  specialAlias,
+}: AddTemplateInput): Promise<void> => {
   const registry = await readRegistry();
   const configDir = getAppDataDir();
   const templatePath = path.join(configDir, `${template.id}.json`);

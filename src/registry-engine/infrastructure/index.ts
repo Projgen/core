@@ -1,2 +1,1 @@
-export * from "./persistence";
-export * from "./external";
+export * from "./filesystem/file-exists.adapter";

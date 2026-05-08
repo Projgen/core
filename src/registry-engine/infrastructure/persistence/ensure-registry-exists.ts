@@ -2,7 +2,7 @@ import fs from "fs/promises";
 
 import { getAppDataDir } from "@/shared";
 import { getRegistryPath } from "./get-registry-file-path";
-import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/application/constants";
+import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/constants";
 
 export const ensureRegistryExists = async (): Promise<void> => {
   const appDataDir = getAppDataDir();

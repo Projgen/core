@@ -6,10 +6,11 @@ import {
   readRegistry,
 } from "@/registry-engine/infrastructure";
 import { getAppDataDir, ProjgenError } from "@/shared";
+import type { RemoveTemplateInput } from "../dto/remove-template.input";
 
-export const removeTemplateFromRegistry = async (
-  alias: string,
-): Promise<void> => {
+export const removeTemplateFromRegistry = async ({
+  alias,
+}: RemoveTemplateInput): Promise<void> => {
   const registry = await readRegistry();
   const templateIndex = registry.templates.findIndex(
     (template) => template.alias === alias,
