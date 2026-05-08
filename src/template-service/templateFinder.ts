@@ -2,8 +2,9 @@ import { fileURLToPath } from "node:url";
 import {
   TemplateSchema,
   type Template,
-} from "../template-engine/schemas/template.ts";
-import { ProjgenError, TemplateError } from "../shared/errors/projgen-error.ts";
+  TemplateError,
+} from "@/template-domain";
+import { ProjgenError } from "@/shared";
 import { getTemplatePathFromRegistry } from "../registry-engine/registryEngine.ts";
 import { parseURL } from "../utils/parseUrl.ts";
 import { blockCrossOriginRedirect } from "../utils/blockCrossOriginRedirect.ts";

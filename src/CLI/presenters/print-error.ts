@@ -1,4 +1,4 @@
-import type { ProjgenError } from "../../shared/errors/projgen-error";
+import type { ProjgenError } from "../../shared/errors";
 
 export const printExpectedError = (
   label: string,

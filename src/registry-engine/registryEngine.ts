@@ -1,9 +1,10 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { type Registry, registrySchema } from "./types/registry.ts";
+import { type Registry, registrySchema } from "./schemas";
 import { getConfigDir } from "../utils/getConfigDir.ts";
-import type { Template } from "../template-engine/schemas/template.ts";
-import { ProjgenError, RegistryError } from "../shared/errors/projgen-error.ts";
+import type { Template } from "@/template-domain";
+import { ProjgenError } from "@/shared";
+import { RegistryError } from "./errors";
 import { printTable } from "../utils/printTable.ts";
 
 const REGISTRY_ENGINE_VERSION = 1;

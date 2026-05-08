@@ -25,8 +25,8 @@
     "url": "git+https://github.com/Projgen/core_v2.git"
   },
   "scripts": {
-    "dev": "nodemon --watch src --ext ts --exec \"ts-node ./src/CLI/index.ts\"",
-    "build": "tsc --outDir dist && node dist/scripts/schema.js > template.schema.json",
+    "dev": "tsx src/cli/main.ts",
+    "build": "tsc --outDir dist && tsc-alias && node dist/scripts/schema.js > template.schema.json",
     "prepublishOnly": "npm run build",
     "start": "node dist/CLI/index.js",
     "test": "vitest run src/",
@@ -51,7 +51,10 @@
     "vitest": "^4.1.4"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.4.2",
     "inquirer": "^13.4.2",
+    "tsc-alias": "^1.8.17",
+    "tsx": "^4.21.0",
     "yargs": "^18.0.0",
     "zod": "^4.3.6"
   }

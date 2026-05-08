@@ -1,10 +1,8 @@
-import { readFile } from "fs/promises";
-import type { PatchJsonStep } from "../schemas/template.ts";
+import { readFile, writeFile } from "fs/promises";
+import { type PatchJsonStep, TemplateError } from "@/template-domain";
 import type { Variable } from "../types/variable.ts";
-import { resolveVariablesInString } from "../../utils/replaceVariable.ts";
-import { checkCondition } from "../conditionals/conditional.ts";
-import { writeFile } from "fs/promises";
-import { TemplateError } from "../../shared/errors/projgen-error.ts";
+import { resolveVariablesInString } from "@/utils/replaceVariable";
+import { checkCondition } from "../conditionals";
 
 export default async (step: PatchJsonStep, variables: Variable[]) => {
   if (

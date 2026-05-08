@@ -10,19 +10,18 @@ import {
   printRegistry,
   removeTemplateFromRegistry,
 } from "../registry-engine/registryEngine.ts";
-
 import prompter from "../utils/prompter.ts";
-import {
-  logExpectedError,
-  ProjgenError,
-  TemplateError,
-  UserCancellationError,
-} from "../shared/errors/projgen-error.ts";
+
+import { printExpectedError } from "./presenters/print-error.ts";
+import { ProjgenError } from "../shared/errors/projgen-error.ts";
+import { TemplateError } from "@/template-domain";
+import { UserCancellationError } from "./errors/user-cancellation-error.ts";
+
 import {
   getTemplate,
   getTemplateFromFilePath,
 } from "../template-service/templateFinder.ts";
-import { getTemplateJsonSchema } from "../template-engine/schemas/templateSchema.ts";
+import { getTemplateJsonSchema } from "../template-service/templateSchema.ts";
 
 const create = async (
   templateSource: string,
@@ -93,9 +92,9 @@ const createHandler = async (
     if (creationResult.error instanceof UserCancellationError) {
       console.log("Operation cancelled by the user.");
     } else if (creationResult.error instanceof TemplateError) {
-      logExpectedError("Template Error", creationResult.error);
+      printExpectedError("Template Error", creationResult.error);
     } else if (creationResult.error instanceof ProjgenError) {
-      logExpectedError("Projgen Error", creationResult.error);
+      printExpectedError("Projgen Error", creationResult.error);
     } else {
       console.error("An unexpected error occurred:");
       console.error(creationResult.error);

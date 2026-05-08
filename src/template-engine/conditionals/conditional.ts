@@ -1,6 +1,5 @@
-import type { StepCondition } from "../schemas/template.ts";
+import { type StepCondition, TemplateError } from "@/template-domain";
 import type { Variable } from "../types/variable.ts";
-import { TemplateError } from "../../shared/errors/projgen-error.ts";
 
 export const checkCondition = (
   condition: StepCondition,
