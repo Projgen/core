@@ -4,7 +4,7 @@ import {
   PatchTextStepSchema,
   RunStepSchema,
   WriteStepSchema,
-} from "./steps";
+} from ".";
 
 export const StepSchema = z.discriminatedUnion("type", [
   RunStepSchema,
