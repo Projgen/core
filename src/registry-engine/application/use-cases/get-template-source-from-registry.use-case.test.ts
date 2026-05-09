@@ -1,4 +1,4 @@
-import { getTemplateFromRegistry } from "./get-template-from-registry.use-case";
+import { getTemplateSourceFromRegistry } from "./get-template-source-from-registry.use-case";
 
 import { describe, expect, test } from "vitest";
 import type { GetRegistryPort, ResolveTemplateLocationPort } from "../ports";
@@ -34,31 +34,31 @@ const mockResolveTemplateLocation: ResolveTemplateLocationPort = (
   return path;
 };
 
-describe("GetTemplateFromRegistryUseCase", () => {
-  test("should fetch template from registry and return it", async () => {
-    const result = await getTemplateFromRegistry({
+describe("GetTemplateSourceFromRegistryUseCase", () => {
+  test("should fetch template source from registry and return it", async () => {
+    const result = await getTemplateSourceFromRegistry({
       alias: "template1",
       getRegistry: mockGetRegistry,
       resolveTemplateLocation: mockResolveTemplateLocation,
     });
-    expect(result).toBe("templates/template1.json");
+    expect(result.source).toBe("templates/template1.json");
   });
 
-  test("should fetch template from linked registry if not found in base registry", async () => {
-    const result = await getTemplateFromRegistry({
+  test("should fetch template source from linked registry if not found in base registry", async () => {
+    const result = await getTemplateSourceFromRegistry({
       alias: "template3",
       getRegistry: mockGetRegistry,
       resolveTemplateLocation: mockResolveTemplateLocation,
     });
-    expect(result).toBe("templates/template3.json");
+    expect(result.source).toBe("templates/template3.json");
   });
 
   test("should return null if template is not found in any registry", async () => {
-    const result = await getTemplateFromRegistry({
+    const result = await getTemplateSourceFromRegistry({
       alias: "nonexistent-template",
       getRegistry: mockGetRegistry,
       resolveTemplateLocation: mockResolveTemplateLocation,
     });
-    expect(result).toBeNull();
+    expect(result.source).toBeNull();
   });
 });

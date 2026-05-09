@@ -1,16 +1,16 @@
 import { ProjgenError, tryCatch } from "@/shared";
-import type { GetTemplateInput } from "../dto/get-template-from-registry.input";
-import type { GetTemplateResult } from "../dto/get-template-from-registry.result";
+import type { GetTemplateSourceFromRegistryInput } from "../dto/get-template-source-from-registry.input";
+import type { GetTemplateSourceFromRegistryResult } from "../dto/get-template-source-from-registry.result";
 
-export const getTemplateFromRegistry = async ({
+export const getTemplateSourceFromRegistry = async ({
   alias,
   getRegistry,
   registryUrl,
   resolveTemplateLocation,
-}: GetTemplateInput): Promise<GetTemplateResult> => {
+}: GetTemplateSourceFromRegistryInput): Promise<GetTemplateSourceFromRegistryResult> => {
   const registry = await tryCatch(getRegistry(registryUrl));
 
-  if (registry.error && registryUrl) return null;
+  if (registry.error && registryUrl) return { source: null };
   if (registry.error)
     throw new ProjgenError("Failed to fetch registry", {
       cause: registry.error,
@@ -20,10 +20,11 @@ export const getTemplateFromRegistry = async ({
     (template) => template.alias === alias,
   );
 
-  if (entry) return resolveTemplateLocation(entry.path, registryUrl);
+  if (entry)
+    return { source: resolveTemplateLocation(entry.path, registryUrl) };
 
   for (const externalRegistryUrl of registry.data.linkedRegistries ?? []) {
-    const externalEntryPath = await getTemplateFromRegistry({
+    const externalEntryPath = await getTemplateSourceFromRegistry({
       alias,
       getRegistry,
       registryUrl: externalRegistryUrl,
@@ -31,5 +32,5 @@ export const getTemplateFromRegistry = async ({
     });
     if (externalEntryPath) return externalEntryPath;
   }
-  return null;
+  return { source: null };
 };
