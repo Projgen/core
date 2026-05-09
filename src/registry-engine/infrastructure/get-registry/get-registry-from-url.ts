@@ -1,30 +1,32 @@
-import { registrySchema } from "@/registry-domain";
+import { registrySchema, type Registry } from "@/registry-domain";
 import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/constants";
+import { RegistryError } from "@/registry-engine/errors";
+import { ProjgenError } from "@/shared";
 
-export const getRegistryFromUrl = async (registryUrl: string) => {
+export const getRegistryFromUrl = async (
+  registryUrl: string,
+): Promise<Registry> => {
   const response = await fetch(registryUrl);
 
   if (!response.ok) {
-    console.error(
+    throw new ProjgenError(
       `Error: Failed to fetch external registry from ${registryUrl}. Status: ${response.status}`,
     );
-    return null;
   }
 
   const registryData = await response.json();
   const validationResult = registrySchema.safeParse(registryData);
 
   if (!validationResult.success) {
-    console.error(
+    throw new RegistryError(
       `Error: Invalid registry format from ${registryUrl}. ${validationResult.error.message}`,
     );
-    return null;
   }
 
   if (validationResult.data.version !== REGISTRY_ENGINE_VERSION) {
-    console.error(
+    throw new RegistryError(
       `Error: Unsupported registry version from ${registryUrl}. Expected version ${REGISTRY_ENGINE_VERSION}.`,
     );
-    return null;
   }
+  return validationResult.data;
 };
