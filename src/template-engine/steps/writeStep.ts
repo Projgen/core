@@ -1,6 +1,6 @@
 import type { WriteStep } from "../schemas/template.ts";
 import type { Variable } from "../types/variable.ts";
-import { resolveVariablesInString } from "../application/replace-variable-in-string.ts";
+import { resolveVariablesInString } from "../replace-variable-in-string.ts";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { checkCondition } from "../conditionals/conditional.ts";
