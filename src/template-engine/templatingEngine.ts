@@ -1,4 +1,4 @@
-import { type Template, type Variable, TemplateError } from "@/template-domain";
+import { type Template, type Variable, TemplateError } from "@/template-engine";
 import type { Variable as VariableValue } from "./types/variable.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
 import { ProjgenError } from "@/shared";

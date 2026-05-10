@@ -1,3 +1,3 @@
-import { ProjgenError } from "../../shared/errors/projgen-error";
+import { ProjgenError } from "@/shared";
 
 export class TemplateError extends ProjgenError {}

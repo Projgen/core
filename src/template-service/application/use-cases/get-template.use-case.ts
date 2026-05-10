@@ -1,4 +1,4 @@
-import { TemplateSchema } from "@/template-domain";
+import { TemplateSchema } from "@/template-engine";
 import type { GetTemplateInput } from "../dto/get-template.input";
 import type { GetTemplateResult } from "../dto/get-template.result";
 import { ProjgenError } from "@/shared";

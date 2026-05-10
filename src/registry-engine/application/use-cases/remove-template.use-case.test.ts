@@ -1,10 +1,10 @@
-import type { Registry } from "@/registry-engine/domain";
 import { ProjgenError } from "@/shared";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { removeTemplateFromRegistry } from "./remove-template.use-case";
 import type { GetRegistryPort, ResolveTemplateLocationPort } from "../ports";
 import type { DeleteFilePort } from "../ports/delete-file.port";
 import type { SaveRegistryPort } from "../ports/save-registry.port";
+import type { Registry } from "../../domain/schemas/registry.schema";
 
 describe("removeTemplateFromRegistry", () => {
   const makeRegistry = (): Registry => ({
