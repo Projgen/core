@@ -1,4 +1,4 @@
-import type { AddTemplateInput } from "../dto/add-template.input";
+import type { AddTemplateInput } from "./add-template.input";
 import { ProjgenError, tryCatch } from "@/shared";
 
 export const addTemplateToRegistry = async ({

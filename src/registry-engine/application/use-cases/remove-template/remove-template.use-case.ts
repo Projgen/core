@@ -1,5 +1,5 @@
 import { ProjgenError, tryCatch } from "@/shared";
-import type { RemoveTemplateInput } from "../dto/remove-template.input";
+import type { RemoveTemplateInput } from "./remove-template.input";
 
 export const removeTemplateFromRegistry = async ({
   alias,

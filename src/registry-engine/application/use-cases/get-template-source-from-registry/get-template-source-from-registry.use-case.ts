@@ -1,6 +1,6 @@
 import { ProjgenError, tryCatch } from "@/shared";
-import type { GetTemplateSourceFromRegistryInput } from "../dto/get-template-source-from-registry.input";
-import type { GetTemplateSourceFromRegistryResult } from "../dto/get-template-source-from-registry.result";
+import type { GetTemplateSourceFromRegistryInput } from "./get-template-source-from-registry.input";
+import type { GetTemplateSourceFromRegistryResult } from "./get-template-source-from-registry.result";
 
 export const getTemplateSourceFromRegistry = async ({
   alias,
