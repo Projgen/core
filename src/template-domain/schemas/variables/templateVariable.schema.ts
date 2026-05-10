@@ -5,7 +5,7 @@ import { booleanVariableSchema } from "./bool-variable.schema";
 import { selectVariableSchema } from "./select-variable.schema";
 import { multiSelectVariableSchema } from "./multi-select-variable.schema";
 
-export const VariableSchema = z.discriminatedUnion("type", [
+export const TemplateVariableSchema = z.discriminatedUnion("type", [
   stringVariableSchema,
   numberVariableSchema,
   booleanVariableSchema,
@@ -13,4 +13,4 @@ export const VariableSchema = z.discriminatedUnion("type", [
   multiSelectVariableSchema,
 ]);
 
-export type Variable = z.infer<typeof VariableSchema>;
+export type TemplateVariable = z.infer<typeof TemplateVariableSchema>;

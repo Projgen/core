@@ -1,4 +1,4 @@
-export * from "./variable.schema";
+export * from "./templateVariable.schema";
 export * from "./string-variable.schema";
 export * from "./number-variable.schema";
 export * from "./bool-variable.schema";
