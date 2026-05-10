@@ -2,7 +2,7 @@ import { getTemplateSourceFromRegistry } from "./get-template-source-from-regist
 
 import { describe, expect, test } from "vitest";
 import type { GetRegistryPort, ResolveTemplateLocationPort } from "../ports";
-import type { Registry } from "@/registry-domain";
+import type { Registry } from "@/registry-engine/domain";
 
 const mockBaseRegistry: Registry = {
   version: 1,

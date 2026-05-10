@@ -1,3 +1,3 @@
-import type { Registry } from "@/registry-domain";
+import type { Registry } from "@/registry-engine/domain";
 
 export type SaveRegistryPort = (registry: Registry) => Promise<void>;

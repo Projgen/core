@@ -1,5 +1,5 @@
-import { registrySchema, type Registry } from "@/registry-domain";
-import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/constants";
+import { registrySchema, type Registry } from "@/registry-engine/domain";
+import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/domain/constants";
 import { RegistryError } from "@/registry-engine/errors";
 import { ProjgenError } from "@/shared";
 

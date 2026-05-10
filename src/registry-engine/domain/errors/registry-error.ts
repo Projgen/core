@@ -1,3 +1,3 @@
-import { ProjgenError } from "../../shared/errors";
+import { ProjgenError } from "@/shared";
 
 export class RegistryError extends ProjgenError {}

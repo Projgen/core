@@ -1,4 +1,4 @@
-import type { Registry } from "@/registry-domain";
+import type { Registry } from "@/registry-engine/domain";
 import type { Template } from "@/template-domain";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { addTemplateToRegistry } from "./add-template.use-case";

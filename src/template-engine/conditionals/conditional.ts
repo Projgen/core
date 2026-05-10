@@ -1,4 +1,4 @@
-import { type StepCondition, TemplateError } from "@/template-domain";
+import { type StepCondition, TemplateError } from "../domain/index.ts";
 import type { Variable } from "../types/variable.ts";
 
 export const checkCondition = (

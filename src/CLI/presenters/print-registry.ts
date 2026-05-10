@@ -1,4 +1,4 @@
-import type { Registry } from "@/registry-domain";
+import type { Registry } from "@/registry-engine/domain";
 import { printTable } from "../presentation";
 
 export const printRegistryEntries = (

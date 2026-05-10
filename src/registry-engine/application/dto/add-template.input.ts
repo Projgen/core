@@ -1,4 +1,4 @@
-import type { Template } from "@/template-domain";
+import type { Template } from "@/template-engine";
 import type { GetRegistryPort } from "../ports";
 import type { SaveTemplatePort } from "../ports/save-template.port";
 import type { SaveRegistryPort } from "../ports/save-registry.port";
