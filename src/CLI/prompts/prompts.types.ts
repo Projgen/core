@@ -15,7 +15,7 @@ export type BooleanPromptParams = {
   defaultValue?: boolean;
 };
 
-export type SelectOption<TValue = string> = {
+export type SelectOption<TValue> = {
   value: TValue;
   label?: string;
   description?: string;
@@ -23,13 +23,13 @@ export type SelectOption<TValue = string> = {
   disabled?: boolean | string;
 };
 
-export type SelectPromptParams<TValue = string> = {
+export type SelectPromptParams<TValue> = {
   message: string;
   options: readonly SelectOption<TValue>[];
   initialValue?: TValue;
 };
 
-export type MultiSelectPromptParams<TValue = string> = {
+export type MultiSelectPromptParams<TValue> = {
   message: string;
   options: readonly (SelectOption<TValue> & {
     checked?: boolean;

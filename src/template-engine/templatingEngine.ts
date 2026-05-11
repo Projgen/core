@@ -1,9 +1,10 @@
 import { type Template, type Variable, TemplateError } from "@/template-engine";
-import type { Variable as VariableValue } from "./types/variable.ts";
+import type { Variable as VariableValue } from "./domain/variable-value.ts";
 import prompter, { type Prompter } from "../utils/prompter.ts";
 import { ProjgenError } from "@/shared";
 import { steps } from "./steps";
 
+// ---
 const TEMPLATE_ENGINE_VERSION = "2.0";
 
 const assertTemplateEngineCompatibility = (template: Template): void => {
@@ -30,6 +31,7 @@ const assertTemplateEngineCompatibility = (template: Template): void => {
     );
   }
 };
+// ---
 
 export const scaffoldFromTemplate = async (
   template: Template,
@@ -75,6 +77,7 @@ export const scaffoldFromTemplate = async (
   }
 };
 
+// ---
 const printTemplateInfo = (
   template: Template,
   logger: (message: string) => void = console.log,
@@ -82,7 +85,9 @@ const printTemplateInfo = (
   logger(`\n${template.name} #${template.version} - ${template.author}`);
   logger(`${template.description}\n`);
 };
+// ---
 
+// ---
 const promptForVariables = async (
   variables: Variable[],
   skipPrompts: boolean = false,
@@ -196,3 +201,4 @@ const promptForVariables = async (
   }
   return variableValues;
 };
+// ---

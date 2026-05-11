@@ -1,4 +1,4 @@
-import type { Variable } from "./types/variable";
+import type { Variable } from "./domain/variable";
 
 export const resolveVariablesInString = (
   str: string,

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import type { PatchTextStep } from "@/template-domain";
-import type { Variable } from "../types/variable.ts";
+import type { Variable } from "../domain/variable-value.ts";
 import { resolveVariablesInString } from "@/template-engine/replace-variable-in-string.ts";
 import { checkCondition } from "../conditionals";
 
