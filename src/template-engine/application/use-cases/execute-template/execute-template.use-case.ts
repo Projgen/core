@@ -6,6 +6,7 @@ import { executeRunStep } from "./steps/execute-run-step";
 import { executeWriteStep } from "./steps/execute-write-step";
 import { executePatchTextStep } from "./steps/execute-patch-text-step";
 import { executePatchJsonStep } from "./steps/execute-patch-json-step";
+import { evaluateStepCondition } from "./evaluate-step-condition";
 
 export const executeTemplate = async ({
   template,
@@ -26,6 +27,14 @@ export const executeTemplate = async ({
   );
 
   for (const step of template.steps) {
+    if (
+      step.when &&
+      !step.when.every((condition) =>
+        evaluateStepCondition(condition, variables),
+      )
+    ) {
+      continue;
+    }
     try {
       switch (step.type) {
         case "run":
