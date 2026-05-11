@@ -1,4 +1,3 @@
-import { type Template } from "@/template-engine";
 import { TEMPLATE_ENGINE_VERSION } from "@/template-engine/domain/constants/template-engine-version";
 import { assertTemplateEngineCompatibility } from "./assertVersionCompatability";
 import { promptForVariables } from "./prompt-for-variables";
