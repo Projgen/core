@@ -7,7 +7,8 @@ export const RunStepSchema = baseStepSchema.safeExtend({
   type: z.literal("run"), // Defines what kind of step it is
 
   // Unique properties for the "run" step type
-  command: z.string(), // The command to run
+  command: z.string(), // The command to run (for example 'npm')
+  args: z.array(z.string()).optional(), // Arguments to pass to the command (for example ['install'])
   cwd: z.string().optional(), // The directory to run the command in relative to the project root, if not provided it will run in the root of the project
 });
 
