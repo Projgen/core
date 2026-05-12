@@ -96,10 +96,13 @@ const appendValueAtJsonPath = (
 
     if (Array.isArray(target) && Array.isArray(value)) {
       json[jsonPath[0]] = [...target, ...value];
+      return json;
     } else if (Array.isArray(target) && !Array.isArray(value)) {
       json[jsonPath[0]] = [...target, value];
+      return json;
     } else if (typeof target === "object" && isRecord(value)) {
       json[jsonPath[0]] = { ...target, ...value };
+      return json;
     } else {
       throw new TemplateError(
         `Cannot append value to target at jsonPath ${jsonPath.join(
