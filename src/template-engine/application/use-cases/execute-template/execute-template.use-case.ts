@@ -11,6 +11,10 @@ import { evaluateStepCondition } from "./evaluate-step-condition";
 export const executeTemplate = async ({
   template,
   prompter,
+  runCommand,
+  fetchText,
+  readFile,
+  writeFile,
   skipPrompts = false,
   variableArguments = {},
 }: ExecuteTemplateInput) => {
@@ -38,16 +42,22 @@ export const executeTemplate = async ({
     try {
       switch (step.type) {
         case "run":
-          await executeRunStep(step, variables);
+          await executeRunStep(step, variables, runCommand);
           break;
         case "write":
-          await executeWriteStep(step, variables);
+          await executeWriteStep(step, variables, fetchText, writeFile);
           break;
         case "patch-text":
-          await executePatchTextStep(step, variables);
+          await executePatchTextStep(
+            step,
+            variables,
+            fetchText,
+            readFile,
+            writeFile,
+          );
           break;
         case "patch-json":
-          await executePatchJsonStep(step, variables);
+          await executePatchJsonStep(step, variables, readFile, writeFile);
           break;
         default:
           console.warn("Unknown step type"); // This should never happen due to the schema validation, but it's good to have just in case
