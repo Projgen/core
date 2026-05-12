@@ -1,6 +1,6 @@
 import type { GetTemplateSourceFromRegistryPort } from "../../ports/get-template-source-from-registry.port";
 
-export interface GetTemplateSourceInput {
+export type GetTemplateSourceInput = {
   source: string;
   getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort;
-}
+};

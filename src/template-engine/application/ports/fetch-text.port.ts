@@ -1,1 +1,3 @@
-export type FetchTextPort = (url: string) => Promise<string>;
+export interface FetchTextPort {
+  (url: string): Promise<string>;
+}

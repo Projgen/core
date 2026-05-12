@@ -1,3 +1,3 @@
-export interface GetTemplateSourceFromRegistryResult {
+export type GetTemplateSourceFromRegistryResult = {
   source: string | null;
-}
+};

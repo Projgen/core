@@ -1,6 +1,6 @@
-import type { TemplateSourceKind } from "../types/template-source-kind";
+import type { TemplateSourceKind } from "@/template-service/domain/template-source-kind";
 
-export interface GetTemplateSourceResult {
+export type GetTemplateSourceResult = {
   source: string | null;
   kind: TemplateSourceKind | "not-found";
-}
+};

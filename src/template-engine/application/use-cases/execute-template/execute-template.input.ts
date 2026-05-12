@@ -5,7 +5,7 @@ import type { FetchTextPort } from "../../ports/fetch-text.port";
 import type { ReadFilePort } from "../../ports/read-file.port";
 import type { WriteFilePort } from "../../ports/write-file.port";
 
-export interface ExecuteTemplateInput {
+export type ExecuteTemplateInput = {
   template: Template;
   prompter: PrompterPort;
   runCommand: RunCommandPort;
@@ -14,4 +14,4 @@ export interface ExecuteTemplateInput {
   writeFile: WriteFilePort;
   skipPrompts?: boolean;
   variableArguments?: Record<string, unknown>;
-}
+};

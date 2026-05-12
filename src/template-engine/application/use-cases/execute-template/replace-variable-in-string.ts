@@ -1,8 +1,8 @@
-import type { Variable } from "./domain/variable";
+import type { VariableValue } from "@/template-engine/domain/variable-value";
 
 export const replaceVariablesInString = (
   str: string,
-  variables: Variable[],
+  variables: VariableValue[],
 ) => {
   let result = str;
   for (const variable of variables) {

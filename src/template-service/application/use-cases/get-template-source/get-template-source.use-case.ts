@@ -1,5 +1,5 @@
-import type { GetTemplateSourceResult } from "../dto/get-template-source.result";
-import type { GetTemplateSourceInput } from "../dto/get-template-source.input";
+import type { GetTemplateSourceResult } from "./get-template-source.result";
+import type { GetTemplateSourceInput } from "./get-template-source.input";
 import { parseURL } from "@/shared";
 import { fileURLToPath } from "node:url";
 

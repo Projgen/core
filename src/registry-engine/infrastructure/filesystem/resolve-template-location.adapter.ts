@@ -1,6 +1,6 @@
 import path from "path";
 
-import type { ResolveTemplateLocationPort } from "@/registry-engine/application";
+import type { ResolveTemplateLocationPort } from "@/registry-engine/application/ports/resolve-template-location.port";
 import { getRegistryPath } from "../get-registry/get-registry-file-path";
 
 export const ResolveTemplateLocationAdapter: ResolveTemplateLocationPort = (

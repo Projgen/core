@@ -1,3 +1,3 @@
-export type GetTemplateSourceFromRegistryPort = (
-  alias: string,
-) => Promise<string | null>;
+export interface GetTemplateSourceFromRegistryPort {
+  (alias: string): Promise<string | null>;
+}

@@ -1,5 +1,5 @@
-import type { Template } from "@/template-domain";
+import type { Template } from "@/template-engine";
 
-export interface GetTemplateResult {
+export type GetTemplateResult = {
   template: Template | null;
-}
+};

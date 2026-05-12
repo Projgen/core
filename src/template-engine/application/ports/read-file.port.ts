@@ -1,1 +1,3 @@
-export type ReadFilePort = (path: string) => Promise<string>;
+export interface ReadFilePort {
+  (path: string): Promise<string>;
+}

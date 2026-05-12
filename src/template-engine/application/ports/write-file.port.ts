@@ -1,1 +1,3 @@
-export type WriteFilePort = (path: string, content: string) => Promise<void>;
+export interface WriteFilePort {
+  (path: string, content: string): Promise<void>;
+}

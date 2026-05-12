@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 
-import { registrySchema, type Registry } from "@/registry-engine/domain";
+import { registrySchema, type Registry } from "@/registry-engine";
 import { RegistryError } from "@/registry-engine";
-import { REGISTRY_ENGINE_VERSION } from "../../domain/constants";
+import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/domain/constants/registry-engine-version";
 import { ensureRegistryExists } from "./ensure-registry-exists";
 import { getRegistryPath } from "./get-registry-file-path";
 

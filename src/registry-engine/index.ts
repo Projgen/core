@@ -1,3 +1,3 @@
-export * from "./domain/errors/registry-error";
+export * from "./domain";
 export * from "./application";
 export * from "./infrastructure";

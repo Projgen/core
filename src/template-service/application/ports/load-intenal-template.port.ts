@@ -1,1 +1,3 @@
-export type LoadInternalTemplatePort = (path: string) => Promise<unknown>;
+export interface LoadInternalTemplatePort {
+  (path: string): Promise<unknown>;
+}

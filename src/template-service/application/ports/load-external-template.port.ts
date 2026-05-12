@@ -1,1 +1,3 @@
-export type LoadExternalTemplatePort = (url: string) => Promise<unknown>;
+export interface LoadExternalTemplatePort {
+  (url: string): Promise<unknown>;
+}

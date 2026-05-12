@@ -1,3 +1,5 @@
-import type { Template } from "@/template-domain";
+import type { Template } from "@/template-engine";
 
-export type SaveTemplatePort = (template: Template) => Promise<void>;
+export interface SaveTemplatePort {
+  (template: Template): Promise<void>;
+}

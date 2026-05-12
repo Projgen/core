@@ -1,6 +1,6 @@
-import { registrySchema, type Registry } from "@/registry-engine/domain";
-import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/domain/constants";
-import { RegistryError } from "@/registry-engine/errors";
+import { registrySchema, type Registry } from "@/registry-engine";
+import { REGISTRY_ENGINE_VERSION } from "@/registry-engine/domain/constants/registry-engine-version";
+import { RegistryError } from "@/registry-engine";
 import { ProjgenError } from "@/shared";
 
 export const getRegistryFromUrl = async (

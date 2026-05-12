@@ -1,1 +1,3 @@
-export type DeleteFilePort = (filePath: string) => Promise<void>;
+export interface DeleteFilePort {
+  (filePath: string): Promise<void>;
+}
