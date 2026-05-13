@@ -46,11 +46,6 @@ export const addCommand = async (
       `Error: Template source "${templatePath}" not found.`,
     );
   }
-  if (templateSource.kind === "alias" || !templateSource.source) {
-    throw new ProjgenError(
-      `Error: Template source "${templatePath}" is already in the registry.`,
-    );
-  }
 
   if (templateSource.kind === "remote-url") {
     const confirmed = await confirmRemoteDownloadPrompt(templateSource.source);

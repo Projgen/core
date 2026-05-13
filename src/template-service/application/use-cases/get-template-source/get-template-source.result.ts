@@ -3,7 +3,7 @@ import type { TemplateSourceKind } from "@/template-service/domain/template-sour
 export type GetTemplateSourceResult =
   | {
       source: string;
-      kind: Omit<TemplateSourceKind, "alias">;
+      kind: Exclude<TemplateSourceKind, "alias">;
     }
   | {
       source: null;

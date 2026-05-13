@@ -8,9 +8,6 @@
     "cli"
   ],
   "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
   "main": "./dist/cli/main.js",
   "bin": {
     "projgen": "dist/cli/main.js"

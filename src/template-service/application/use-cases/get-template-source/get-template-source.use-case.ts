@@ -31,7 +31,7 @@ export const getTemplateSource = async ({
   const path = await getTemplateSourceFromRegistry(source);
 
   if (path) {
-    return { kind: "alias", source: path };
+    return { kind: "path", source: path };
   }
   return { kind: "not-found", source: null };
 };

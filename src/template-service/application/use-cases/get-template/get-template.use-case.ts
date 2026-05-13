@@ -17,7 +17,7 @@ export const getTemplate = async ({
       break;
     default:
       throw new ProjgenError(
-        "Invalid template source kind" + templateSource.kind,
+        "Invalid template source kind: " + templateSource.kind,
       );
   }
 
