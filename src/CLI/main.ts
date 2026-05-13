@@ -61,7 +61,15 @@ const create = async (
         message: "Enter an alias to refer to this template in the registry:",
         required: false,
       });
-      await addTemplateToRegistry(resolved.template, aliasResult.content);
+      await addTemplateToRegistry({
+        template: resolved.template,
+        deps: {
+          getRegistry: getRegistryAdapter,
+          saveRegistry: writeRegistryToFileAdapter,
+          saveTemplate: writeTemplateToFileAdapter,
+          specialAlias: aliasResult.content || undefined,
+        },
+      });
     }
   }
   await scaffoldFromTemplate(resolved.template, skipPrompts, variableArguments);
@@ -121,7 +129,15 @@ const addHandler = async (
       `Error: Template not found at path "${argv.templatePath}".`,
     );
   }
-  await addTemplateToRegistry(template, argv.alias || null);
+  await addTemplateToRegistry({
+    template,
+    deps: {
+      getRegistry: getRegistryAdapter,
+      saveRegistry: writeRegistryToFileAdapter,
+      saveTemplate: writeTemplateToFileAdapter,
+      specialAlias: argv.alias || undefined,
+    },
+  });
 };
 
 const listHandler = async () => {
@@ -136,7 +152,15 @@ const removeHandler = async (
     console.error("Error: Alias is required.");
     return;
   }
-  await removeTemplateFromRegistry(argv.alias);
+  await removeTemplateFromRegistry({
+    alias: argv.alias,
+    deps: {
+      getRegistry: getRegistryAdapter,
+      saveRegistry: writeRegistryToFileAdapter,
+      resolveTemplateLocation: ResolveTemplateLocationAdapter,
+      deleteFile: deleteFileAdapter,
+    },
+  });
 
   console.log(
     `Template with alias "${argv.alias}" has been removed from the registry.`,

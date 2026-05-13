@@ -1,7 +1,7 @@
 import { assertSameOriginRedirect } from "@/shared";
 import type { LoadExternalTemplatePort } from "@/template-service/application/ports/load-external-template.port";
 
-export const loadTemplateFromRemote: LoadExternalTemplatePort = async (
+export const loadTemplateFromRemoteAdapter: LoadExternalTemplatePort = async (
   url: string,
 ): Promise<unknown | null> => {
   const response = await fetch(url, { redirect: "follow" });

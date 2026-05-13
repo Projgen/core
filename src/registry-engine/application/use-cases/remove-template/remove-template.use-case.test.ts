@@ -35,10 +35,12 @@ describe("removeTemplateFromRegistry", () => {
 
     await removeTemplateFromRegistry({
       alias: "to-remove",
-      getRegistry,
-      saveRegistry,
-      resolveTemplateLocation,
-      deleteFile,
+      deps: {
+        getRegistry,
+        saveRegistry,
+        resolveTemplateLocation,
+        deleteFile,
+      },
     });
 
     expect(getRegistry).toHaveBeenCalledTimes(1);
@@ -58,10 +60,12 @@ describe("removeTemplateFromRegistry", () => {
     await expect(
       removeTemplateFromRegistry({
         alias: "missing",
-        getRegistry,
-        saveRegistry,
-        resolveTemplateLocation,
-        deleteFile,
+        deps: {
+          getRegistry,
+          saveRegistry,
+          resolveTemplateLocation,
+          deleteFile,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 
@@ -78,10 +82,12 @@ describe("removeTemplateFromRegistry", () => {
     await expect(
       removeTemplateFromRegistry({
         alias: "to-remove",
-        getRegistry,
-        saveRegistry,
-        resolveTemplateLocation,
-        deleteFile,
+        deps: {
+          getRegistry,
+          saveRegistry,
+          resolveTemplateLocation,
+          deleteFile,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 
@@ -97,10 +103,12 @@ describe("removeTemplateFromRegistry", () => {
     await expect(
       removeTemplateFromRegistry({
         alias: "to-remove",
-        getRegistry,
-        saveRegistry,
-        resolveTemplateLocation,
-        deleteFile,
+        deps: {
+          getRegistry,
+          saveRegistry,
+          resolveTemplateLocation,
+          deleteFile,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 
@@ -117,10 +125,12 @@ describe("removeTemplateFromRegistry", () => {
     await expect(
       removeTemplateFromRegistry({
         alias: "to-remove",
-        getRegistry,
-        saveRegistry,
-        resolveTemplateLocation,
-        deleteFile,
+        deps: {
+          getRegistry,
+          saveRegistry,
+          resolveTemplateLocation,
+          deleteFile,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 

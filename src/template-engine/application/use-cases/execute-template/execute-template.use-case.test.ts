@@ -10,6 +10,12 @@ import { executeWriteStep } from "./steps/execute-write-step";
 import { executePatchTextStep } from "./steps/execute-patch-text-step";
 import { executePatchJsonStep } from "./steps/execute-patch-json-step";
 import { evaluateStepCondition } from "./evaluate-step-condition";
+import type {
+  PatchJsonStep,
+  PatchTextStep,
+  RunStep,
+  WriteStep,
+} from "@/template-engine";
 
 vi.mock("./assertVersionCompatability", () => ({
   assertTemplateEngineCompatibility: vi.fn(),
@@ -57,8 +63,7 @@ const createInput = (overrides: Partial<ExecuteTemplateInput> = {}) => {
     steps: [],
   };
 
-  return {
-    template: baseTemplate,
+  const deps = {
     prompter: {
       string: vi.fn(),
       number: vi.fn(),
@@ -70,6 +75,11 @@ const createInput = (overrides: Partial<ExecuteTemplateInput> = {}) => {
     fetchText: vi.fn(),
     readFile: vi.fn(),
     writeFile: vi.fn(),
+  };
+
+  return {
+    template: baseTemplate,
+    deps,
     ...overrides,
   } satisfies ExecuteTemplateInput;
 };
@@ -99,14 +109,14 @@ describe("executeTemplate", () => {
     );
     expect(promptForVariablesMock).toHaveBeenCalledWith(
       input.template.variables,
-      input.prompter,
+      input.deps.prompter,
       false,
       {},
     );
     expect(executeRunStepMock).toHaveBeenCalledWith(
       input.template.steps[0],
       [{ name: "name", content: "Jane" }],
-      input.runCommand,
+      input.deps.runCommand,
     );
     expect(executeWriteStepMock).not.toHaveBeenCalled();
     expect(executePatchTextStepMock).not.toHaveBeenCalled();
@@ -114,11 +124,15 @@ describe("executeTemplate", () => {
   });
 
   it("skips conditional steps that do not match", async () => {
-    const conditionalStep = {
+    const when = [
+      { variable: "enabled", operator: "eq", value: true },
+    ] as const;
+
+    const conditionalStep: RunStep = {
       type: "run",
       command: "echo",
-      when: [{ variable: "enabled", operator: "eq", value: true }],
-    } as const;
+      when: [...when],
+    };
 
     const input = createInput({
       template: {
@@ -134,36 +148,41 @@ describe("executeTemplate", () => {
 
     await executeTemplate(input);
 
-    expect(evaluateStepConditionMock).toHaveBeenCalledWith(
-      conditionalStep.when[0],
-      [{ name: "enabled", content: false }],
-    );
+    expect(evaluateStepConditionMock).toHaveBeenCalledWith(when[0], [
+      { name: "enabled", content: false },
+    ]);
     expect(executeRunStepMock).not.toHaveBeenCalled();
   });
 
   it("dispatches each supported step type", async () => {
-    const steps = [
-      { type: "run", command: "npm", args: ["run", "build"] },
-      { type: "write", path: "README.md", content: "hello" },
-      {
-        type: "patch-text",
-        path: "README.md",
-        operation: "append",
-        content: " world",
-      },
-      {
-        type: "patch-json",
-        path: "package.json",
-        operation: "set",
-        jsonPath: ["name"],
-        value: "sample",
-      },
-    ] as const;
+    const runStep: RunStep = {
+      type: "run",
+      command: "npm",
+      args: ["run", "build"],
+    };
+    const writeStep: WriteStep = {
+      type: "write",
+      path: "README.md",
+      content: "hello",
+    };
+    const patchTextStep: PatchTextStep = {
+      type: "patch-text",
+      path: "README.md",
+      operation: "append",
+      content: " world",
+    };
+    const patchJsonStep: PatchJsonStep = {
+      type: "patch-json",
+      path: "package.json",
+      operation: "set",
+      jsonPath: ["name"],
+      value: "sample",
+    };
 
     const input = createInput({
       template: {
         ...createInput().template,
-        steps: [...steps],
+        steps: [runStep, writeStep, patchTextStep, patchJsonStep],
       },
     });
 
@@ -172,28 +191,28 @@ describe("executeTemplate", () => {
     await executeTemplate(input);
 
     expect(executeRunStepMock).toHaveBeenCalledWith(
-      steps[0],
+      runStep,
       [],
-      input.runCommand,
+      input.deps.runCommand,
     );
     expect(executeWriteStepMock).toHaveBeenCalledWith(
-      steps[1],
+      writeStep,
       [],
-      input.fetchText,
-      input.writeFile,
+      input.deps.fetchText,
+      input.deps.writeFile,
     );
     expect(executePatchTextStepMock).toHaveBeenCalledWith(
-      steps[2],
+      patchTextStep,
       [],
-      input.fetchText,
-      input.readFile,
-      input.writeFile,
+      input.deps.fetchText,
+      input.deps.readFile,
+      input.deps.writeFile,
     );
     expect(executePatchJsonStepMock).toHaveBeenCalledWith(
-      steps[3],
+      patchJsonStep,
       [],
-      input.readFile,
-      input.writeFile,
+      input.deps.readFile,
+      input.deps.writeFile,
     );
   });
 

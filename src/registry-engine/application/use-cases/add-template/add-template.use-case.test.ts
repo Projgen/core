@@ -49,9 +49,11 @@ describe("addTemplateToRegistry", () => {
 
     await addTemplateToRegistry({
       template,
-      getRegistry,
-      saveTemplate,
-      saveRegistry,
+      deps: {
+        getRegistry,
+        saveTemplate,
+        saveRegistry,
+      },
     });
 
     expect(getRegistry).toHaveBeenCalledTimes(1);
@@ -70,9 +72,11 @@ describe("addTemplateToRegistry", () => {
     await expect(
       addTemplateToRegistry({
         template,
-        getRegistry,
-        saveTemplate,
-        saveRegistry,
+        deps: {
+          getRegistry,
+          saveTemplate,
+          saveRegistry,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 
@@ -87,9 +91,11 @@ describe("addTemplateToRegistry", () => {
     await expect(
       addTemplateToRegistry({
         template,
-        getRegistry,
-        saveTemplate,
-        saveRegistry,
+        deps: {
+          getRegistry,
+          saveTemplate,
+          saveRegistry,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 
@@ -104,9 +110,11 @@ describe("addTemplateToRegistry", () => {
     await expect(
       addTemplateToRegistry({
         template,
-        getRegistry,
-        saveTemplate,
-        saveRegistry,
+        deps: {
+          getRegistry,
+          saveTemplate,
+          saveRegistry,
+        },
       }),
     ).rejects.toThrow(ProjgenError);
 

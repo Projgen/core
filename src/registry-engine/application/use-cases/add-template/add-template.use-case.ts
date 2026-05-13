@@ -3,10 +3,7 @@ import { ProjgenError, tryCatch } from "@/shared";
 
 export const addTemplateToRegistry = async ({
   template,
-  getRegistry,
-  saveTemplate,
-  saveRegistry,
-  specialAlias,
+  deps: { getRegistry, saveTemplate, saveRegistry, specialAlias },
 }: AddTemplateInput): Promise<void> => {
   const registry = await getRegistry();
 

@@ -1,3 +1,5 @@
+import type { Arrayify } from "@/shared";
+
 export interface PrompterPort {
   string(
     message: string,
@@ -11,9 +13,9 @@ export interface PrompterPort {
   ): Promise<number | null>;
   boolean(message: string, defaultValue?: boolean): Promise<boolean>;
   select<T extends string | number>(message: string, options: T[]): Promise<T>;
-  multiSelect<T extends string[] | number[]>(
+  multiSelect<T extends string | number>(
     message: string,
-    options: T,
+    options: Arrayify<T>,
     required?: boolean,
-  ): Promise<T>;
+  ): Promise<Arrayify<T>>;
 }

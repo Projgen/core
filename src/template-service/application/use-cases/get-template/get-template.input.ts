@@ -4,6 +4,8 @@ import type { TemplateSourceKind } from "@/template-service/domain/template-sour
 
 export type GetTemplateInput = {
   templateSource: { kind: Omit<TemplateSourceKind, "alias">; value: string };
-  loadInternalTemplate: LoadInternalTemplatePort;
-  loadExternalTemplate: LoadExternalTemplatePort;
+  deps: {
+    loadInternalTemplate: LoadInternalTemplatePort;
+    loadExternalTemplate: LoadExternalTemplatePort;
+  };
 };

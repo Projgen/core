@@ -4,9 +4,8 @@ import type { GetTemplateSourceFromRegistryResult } from "./get-template-source-
 
 export const getTemplateSourceFromRegistry = async ({
   alias,
-  getRegistry,
   registryUrl,
-  resolveTemplateLocation,
+  deps: { getRegistry, resolveTemplateLocation },
 }: GetTemplateSourceFromRegistryInput): Promise<GetTemplateSourceFromRegistryResult> => {
   const registry = await tryCatch(getRegistry(registryUrl));
 
@@ -26,9 +25,11 @@ export const getTemplateSourceFromRegistry = async ({
   for (const externalRegistryUrl of registry.data.linkedRegistries ?? []) {
     const externalEntryPath = await getTemplateSourceFromRegistry({
       alias,
-      getRegistry,
       registryUrl: externalRegistryUrl,
-      resolveTemplateLocation,
+      deps: {
+        getRegistry,
+        resolveTemplateLocation,
+      },
     });
     if (externalEntryPath) return externalEntryPath;
   }

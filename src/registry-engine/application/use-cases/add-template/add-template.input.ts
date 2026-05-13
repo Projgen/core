@@ -5,8 +5,10 @@ import type { SaveRegistryPort } from "../../ports/save-registry.port";
 
 export type AddTemplateInput = {
   template: Template;
-  getRegistry: GetRegistryPort;
-  saveTemplate: SaveTemplatePort;
-  saveRegistry: SaveRegistryPort;
-  specialAlias?: string;
+  deps: {
+    getRegistry: GetRegistryPort;
+    saveTemplate: SaveTemplatePort;
+    saveRegistry: SaveRegistryPort;
+    specialAlias?: string | undefined;
+  };
 };

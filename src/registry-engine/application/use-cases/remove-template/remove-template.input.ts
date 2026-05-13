@@ -5,8 +5,10 @@ import type { SaveRegistryPort } from "../../ports/save-registry.port";
 
 export type RemoveTemplateInput = {
   alias: string;
-  getRegistry: GetRegistryPort;
-  saveRegistry: SaveRegistryPort;
-  resolveTemplateLocation: ResolveTemplateLocationPort;
-  deleteFile: DeleteFilePort;
+  deps: {
+    getRegistry: GetRegistryPort;
+    saveRegistry: SaveRegistryPort;
+    resolveTemplateLocation: ResolveTemplateLocationPort;
+    deleteFile: DeleteFilePort;
+  };
 };

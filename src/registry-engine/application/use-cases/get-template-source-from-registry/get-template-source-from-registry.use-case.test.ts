@@ -39,8 +39,10 @@ describe("GetTemplateSourceFromRegistryUseCase", () => {
   test("should fetch template source from registry and return it", async () => {
     const result = await getTemplateSourceFromRegistry({
       alias: "template1",
-      getRegistry: mockGetRegistry,
-      resolveTemplateLocation: mockResolveTemplateLocation,
+      deps: {
+        getRegistry: mockGetRegistry,
+        resolveTemplateLocation: mockResolveTemplateLocation,
+      },
     });
     expect(result.source).toBe("templates/template1.json");
   });
@@ -48,8 +50,10 @@ describe("GetTemplateSourceFromRegistryUseCase", () => {
   test("should fetch template source from linked registry if not found in base registry", async () => {
     const result = await getTemplateSourceFromRegistry({
       alias: "template3",
-      getRegistry: mockGetRegistry,
-      resolveTemplateLocation: mockResolveTemplateLocation,
+      deps: {
+        getRegistry: mockGetRegistry,
+        resolveTemplateLocation: mockResolveTemplateLocation,
+      },
     });
     expect(result.source).toBe("templates/template3.json");
   });
@@ -57,8 +61,10 @@ describe("GetTemplateSourceFromRegistryUseCase", () => {
   test("should return null if template is not found in any registry", async () => {
     const result = await getTemplateSourceFromRegistry({
       alias: "nonexistent-template",
-      getRegistry: mockGetRegistry,
-      resolveTemplateLocation: mockResolveTemplateLocation,
+      deps: {
+        getRegistry: mockGetRegistry,
+        resolveTemplateLocation: mockResolveTemplateLocation,
+      },
     });
     expect(result.source).toBeNull();
   });

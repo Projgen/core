@@ -1,5 +1,5 @@
 import type { Registry } from "@/registry-engine/domain";
-import { printTable } from "../presentation";
+import { printTable } from "../ui";
 
 export const printRegistryEntries = (
   entries: { alias: string; path: string }[],

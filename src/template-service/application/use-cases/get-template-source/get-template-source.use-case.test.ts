@@ -5,7 +5,9 @@ describe("getTemplateSource", () => {
   test("returns remote-url for http(s) urls", async () => {
     const result = await getTemplateSource({
       source: " https://example.com/t.json ",
-      getTemplateSourceFromRegistry: async () => null,
+      deps: {
+        getTemplateSourceFromRegistry: async () => null,
+      },
     });
 
     expect(result).toEqual({
@@ -17,7 +19,9 @@ describe("getTemplateSource", () => {
   test("returns path when source looks like a path", async () => {
     const result = await getTemplateSource({
       source: " templates/my.json ",
-      getTemplateSourceFromRegistry: async () => null,
+      deps: {
+        getTemplateSourceFromRegistry: async () => null,
+      },
     });
 
     expect(result).toEqual({ kind: "path", source: "templates/my.json" });
@@ -26,7 +30,9 @@ describe("getTemplateSource", () => {
   test("returns path when source is just a json file name", async () => {
     const result = await getTemplateSource({
       source: "mytemplate.json",
-      getTemplateSourceFromRegistry: async () => null,
+      deps: {
+        getTemplateSourceFromRegistry: async () => null,
+      },
     });
 
     expect(result).toEqual({ kind: "path", source: "mytemplate.json" });
@@ -35,7 +41,9 @@ describe("getTemplateSource", () => {
   test("returns path for file urls", async () => {
     const result = await getTemplateSource({
       source: "file:///C:/templates/my.json",
-      getTemplateSourceFromRegistry: async () => null,
+      deps: {
+        getTemplateSourceFromRegistry: async () => null,
+      },
     });
 
     expect(result).toEqual({ kind: "path", source: "C:\\templates\\my.json" });
@@ -44,7 +52,9 @@ describe("getTemplateSource", () => {
   test("returns alias when registry returns a path", async () => {
     const result = await getTemplateSource({
       source: "my-alias",
-      getTemplateSourceFromRegistry: async () => "/registry/mytemplate",
+      deps: {
+        getTemplateSourceFromRegistry: async () => "/registry/mytemplate",
+      },
     });
 
     expect(result).toEqual({ kind: "alias", source: "/registry/mytemplate" });
@@ -53,7 +63,9 @@ describe("getTemplateSource", () => {
   test("returns not-found when alias is not in registry", async () => {
     const result = await getTemplateSource({
       source: "unknown-alias",
-      getTemplateSourceFromRegistry: async () => null,
+      deps: {
+        getTemplateSourceFromRegistry: async () => null,
+      },
     });
 
     expect(result).toEqual({ kind: "not-found", source: null });

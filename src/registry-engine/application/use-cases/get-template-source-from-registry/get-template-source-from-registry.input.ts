@@ -3,7 +3,9 @@ import type { ResolveTemplateLocationPort } from "../../ports/resolve-template-l
 
 export type GetTemplateSourceFromRegistryInput = {
   alias: string;
-  getRegistry: GetRegistryPort;
-  resolveTemplateLocation: ResolveTemplateLocationPort;
   registryUrl?: string;
+  deps: {
+    getRegistry: GetRegistryPort;
+    resolveTemplateLocation: ResolveTemplateLocationPort;
+  };
 };

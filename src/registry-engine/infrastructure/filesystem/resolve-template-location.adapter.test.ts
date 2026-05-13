@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { ResolveTemplateLocationAdapter } from "./resolve-template-location.adapter";
+import { resolveTemplateLocationAdapter } from "./resolve-template-location.adapter";
 
 describe("ResolveTemplateLocationAdapter", () => {
   describe("when registryUrl is provided", () => {
@@ -9,7 +9,7 @@ describe("ResolveTemplateLocationAdapter", () => {
       const expectedUrl =
         "https://example.com/registry/templates/myTemplate.json";
 
-      const result = ResolveTemplateLocationAdapter(relativePath, registryUrl);
+      const result = resolveTemplateLocationAdapter(relativePath, registryUrl);
       expect(result).toBe(expectedUrl);
     });
 
@@ -18,7 +18,7 @@ describe("ResolveTemplateLocationAdapter", () => {
       const relativePath = "templates/myTemplate.json";
       const expectedUrl = "https://example.com/templates/myTemplate.json";
 
-      const result = ResolveTemplateLocationAdapter(relativePath, registryUrl);
+      const result = resolveTemplateLocationAdapter(relativePath, registryUrl);
       expect(result).toBe(expectedUrl);
     });
 
@@ -27,7 +27,7 @@ describe("ResolveTemplateLocationAdapter", () => {
       const relativePath = "../templates/myTemplate.json";
       const expectedUrl = "https://example.com/templates/myTemplate.json";
 
-      const result = ResolveTemplateLocationAdapter(relativePath, registryUrl);
+      const result = resolveTemplateLocationAdapter(relativePath, registryUrl);
       expect(result).toBe(expectedUrl);
     });
 
@@ -37,7 +37,7 @@ describe("ResolveTemplateLocationAdapter", () => {
       const expectedUrl =
         "https://example.com/registry/templates/myTemplate.json";
 
-      const result = ResolveTemplateLocationAdapter(relativePath, registryUrl);
+      const result = resolveTemplateLocationAdapter(relativePath, registryUrl);
       expect(result).toBe(expectedUrl);
     });
   });
@@ -45,14 +45,14 @@ describe("ResolveTemplateLocationAdapter", () => {
   describe("when registryUrl is not provided", () => {
     test("resolves file path", () => {
       const relativePath = "templates/myTemplate.json";
-      const result = ResolveTemplateLocationAdapter(relativePath);
+      const result = resolveTemplateLocationAdapter(relativePath);
       expect(result).toContain("registry");
       expect(result).toContain("templates\\myTemplate.json");
     });
 
     test("resolves file path with relative path", () => {
       const relativePath = "../templates/myTemplate.json";
-      const result = ResolveTemplateLocationAdapter(relativePath);
+      const result = resolveTemplateLocationAdapter(relativePath);
       expect(result).not.toContain("registry");
       expect(result).toContain("templates\\myTemplate.json");
     });

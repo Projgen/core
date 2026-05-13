@@ -1,18 +1,20 @@
+import type { Arrayify } from "@/shared";
+
 export type StringPromptParams = {
   message: string;
-  required?: boolean;
-  defaultValue?: string;
+  required?: boolean | undefined;
+  defaultValue?: string | undefined;
 };
 
 export type NumberPromptParams = {
   message: string;
-  required?: boolean;
-  defaultValue?: number;
+  required?: boolean | undefined;
+  defaultValue?: number | undefined;
 };
 
 export type BooleanPromptParams = {
   message: string;
-  defaultValue?: boolean;
+  defaultValue?: boolean | undefined;
 };
 
 export type SelectOption<TValue> = {
@@ -31,9 +33,7 @@ export type SelectPromptParams<TValue> = {
 
 export type MultiSelectPromptParams<TValue> = {
   message: string;
-  options: readonly (SelectOption<TValue> & {
-    checked?: boolean;
-  })[];
+  options: readonly SelectOption<TValue>[];
   required?: boolean;
 };
 
@@ -44,5 +44,5 @@ export interface Prompter {
   promptForSelect<TValue>(params: SelectPromptParams<TValue>): Promise<TValue>;
   promptForMultiSelect<TValue>(
     params: MultiSelectPromptParams<TValue>,
-  ): Promise<TValue[]>;
+  ): Promise<Arrayify<TValue>>;
 }

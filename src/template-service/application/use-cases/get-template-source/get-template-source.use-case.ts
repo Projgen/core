@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 export const getTemplateSource = async ({
   source: raw,
-  getTemplateSourceFromRegistry,
+  deps: { getTemplateSourceFromRegistry },
 }: GetTemplateSourceInput): Promise<GetTemplateSourceResult> => {
   const source = raw.trim();
 

@@ -10,13 +10,9 @@ import { evaluateStepCondition } from "./evaluate-step-condition";
 
 export const executeTemplate = async ({
   template,
-  prompter,
-  runCommand,
-  fetchText,
-  readFile,
-  writeFile,
   skipPrompts = false,
   variableArguments = {},
+  deps: { prompter, runCommand, fetchText, readFile, writeFile },
 }: ExecuteTemplateInput) => {
   assertTemplateEngineCompatibility(
     template.engineVersion,

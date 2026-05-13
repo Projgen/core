@@ -3,10 +3,7 @@ import type { RemoveTemplateInput } from "./remove-template.input";
 
 export const removeTemplateFromRegistry = async ({
   alias,
-  getRegistry,
-  saveRegistry,
-  resolveTemplateLocation,
-  deleteFile,
+  deps: { getRegistry, saveRegistry, resolveTemplateLocation, deleteFile },
 }: RemoveTemplateInput): Promise<void> => {
   const registry = await getRegistry();
   const templateIndex = registry.templates.findIndex(

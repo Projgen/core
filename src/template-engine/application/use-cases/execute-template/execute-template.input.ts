@@ -7,11 +7,13 @@ import type { WriteFilePort } from "../../ports/write-file.port";
 
 export type ExecuteTemplateInput = {
   template: Template;
-  prompter: PrompterPort;
-  runCommand: RunCommandPort;
-  fetchText: FetchTextPort;
-  readFile: ReadFilePort;
-  writeFile: WriteFilePort;
   skipPrompts?: boolean;
   variableArguments?: Record<string, unknown>;
+  deps: {
+    prompter: PrompterPort;
+    runCommand: RunCommandPort;
+    fetchText: FetchTextPort;
+    readFile: ReadFilePort;
+    writeFile: WriteFilePort;
+  };
 };

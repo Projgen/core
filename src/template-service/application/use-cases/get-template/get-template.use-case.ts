@@ -5,8 +5,7 @@ import { ProjgenError } from "@/shared";
 
 export const getTemplate = async ({
   templateSource,
-  loadInternalTemplate,
-  loadExternalTemplate,
+  deps: { loadInternalTemplate, loadExternalTemplate },
 }: GetTemplateInput): Promise<GetTemplateResult> => {
   let template: unknown | null = null;
   switch (templateSource.kind) {

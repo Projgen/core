@@ -2,5 +2,7 @@ import type { GetTemplateSourceFromRegistryPort } from "../../ports/get-template
 
 export type GetTemplateSourceInput = {
   source: string;
-  getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort;
+  deps: {
+    getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort;
+  };
 };

@@ -18,8 +18,10 @@ describe("getTemplate", () => {
   it("loads and parses template from remote-url", async () => {
     const res = await getTemplate({
       templateSource: { kind: "remote-url", value: "https://x" },
-      loadExternalTemplate: async () => validTemplate,
-      loadInternalTemplate: async () => null,
+      deps: {
+        loadExternalTemplate: async () => validTemplate,
+        loadInternalTemplate: async () => null,
+      },
     });
 
     expect(res).toEqual({ template: validTemplate });
@@ -28,8 +30,10 @@ describe("getTemplate", () => {
   it("loads and parses template from path", async () => {
     const res = await getTemplate({
       templateSource: { kind: "path", value: "./t.json" },
-      loadExternalTemplate: async () => null,
-      loadInternalTemplate: async () => validTemplate,
+      deps: {
+        loadExternalTemplate: async () => null,
+        loadInternalTemplate: async () => validTemplate,
+      },
     });
 
     expect(res).toEqual({ template: validTemplate });
@@ -38,8 +42,10 @@ describe("getTemplate", () => {
   it("returns null when loader returns falsy", async () => {
     const res = await getTemplate({
       templateSource: { kind: "path", value: "./t.json" },
-      loadExternalTemplate: async () => null,
-      loadInternalTemplate: async () => null,
+      deps: {
+        loadExternalTemplate: async () => null,
+        loadInternalTemplate: async () => null,
+      },
     });
 
     expect(res).toEqual({ template: null });
@@ -49,8 +55,10 @@ describe("getTemplate", () => {
     await expect(
       getTemplate({
         templateSource: { kind: "path", value: "./t.json" },
-        loadExternalTemplate: async () => null,
-        loadInternalTemplate: async () => ({ bad: "object" }),
+        deps: {
+          loadExternalTemplate: async () => null,
+          loadInternalTemplate: async () => ({ bad: "object" }),
+        },
       }),
     ).rejects.toBeInstanceOf(ProjgenError);
   });
