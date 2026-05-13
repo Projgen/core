@@ -11,9 +11,9 @@
   "imports": {
     "#/*": "./src/*"
   },
-  "main": "./dist/src/cli/main.js",
+  "main": "./dist/cli/main.js",
   "bin": {
-    "projgen": "dist/src/cli/main.js"
+    "projgen": "dist/cli/main.js"
   },
   "files": [
     "dist",
@@ -31,7 +31,7 @@
     "dev": "tsx src/cli/main.ts",
     "build": "tsc --outDir dist && tsc-alias && tsx src/scripts/schema.ts > template.schema.json",
     "prepublishOnly": "npm run build",
-    "start": "node dist/src/cli/main.js",
+    "start": "node dist/cli/main.js",
     "test": "vitest run src/",
     "test:coverage": "vitest run src/ --coverage",
     "test:watch": "vitest watch src/",
