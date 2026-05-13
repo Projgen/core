@@ -164,7 +164,7 @@ export const promptForVariables = async (
       case "multi-select":
         const multiSelectValue = await prompter.multiSelect(
           variable.message,
-          variable.options,
+          variable.options.map((option) => String(option)),
           variable.required,
         );
         variableValues.push({ name: variable.name, content: multiSelectValue });

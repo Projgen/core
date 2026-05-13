@@ -16,19 +16,10 @@ import {
 import { confirmRemoteDownloadPrompt } from "../prompts/confirm-remote-download.prompt";
 import { UserCancellationError } from "../errors";
 
-export const addCommand = async ({
-  templatePath,
-  alias,
-}: {
-  templatePath: string | undefined;
-  alias: string | undefined;
-}) => {
-  if (!templatePath) {
-    throw new ProjgenError(
-      "Error: Template path is required for the add command.",
-    );
-  }
-
+export const addCommand = async (
+  templatePath: string,
+  alias: string | undefined,
+) => {
   const templateSource = await getTemplateSource({
     source: templatePath,
     deps: {

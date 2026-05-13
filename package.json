@@ -8,9 +8,12 @@
     "cli"
   ],
   "type": "module",
-  "main": "./dist/CLI/index.js",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "main": "./dist/src/cli/main.js",
   "bin": {
-    "projgen": "dist/CLI/index.js"
+    "projgen": "dist/src/cli/main.js"
   },
   "files": [
     "dist",
@@ -26,9 +29,9 @@
   },
   "scripts": {
     "dev": "tsx src/cli/main.ts",
-    "build": "tsc --outDir dist && tsc-alias && node dist/scripts/schema.js > template.schema.json",
+    "build": "tsc --outDir dist && tsc-alias && tsx src/scripts/schema.ts > template.schema.json",
     "prepublishOnly": "npm run build",
-    "start": "node dist/CLI/index.js",
+    "start": "node dist/src/cli/main.js",
     "test": "vitest run src/",
     "test:coverage": "vitest run src/ --coverage",
     "test:watch": "vitest watch src/",

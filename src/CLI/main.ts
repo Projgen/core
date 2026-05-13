@@ -1,175 +1,33 @@
 #!/usr/bin/env node
 
-import yargs, { type ArgumentsCamelCase } from "yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { tryCatch } from "../shared/utils/tryCatch.ts";
-import { scaffoldFromTemplate } from "@/template-engine";
-import {
-  addTemplateToRegistry,
-  findRegistry,
-  removeTemplateFromRegistry,
-} from "@/registry-engine";
 
-import prompter from "../utils/prompter.ts";
-import { printRegistry, printExpectedError } from "./presenters";
-
+import { TemplateError } from "@/template-engine";
+import { UserCancellationError } from "./errors/user-cancellation-error.ts";
+import { printExpectedError } from "./presenters/print-error.ts";
 import { ProjgenError } from "@/shared";
-import { TemplateError } from "@/template-domain";
-import { UserCancellationError } from "./errors";
+import { createCommand } from "./commands/create.command.ts";
+import { addCommand } from "./commands/add.command.ts";
+import { listCommand } from "./commands/list.command.ts";
+import { removeCommand } from "./commands/remove.command.ts";
+import { schemaCommand } from "./commands/schema.command.ts";
 
-import {
-  getTemplate,
-  getTemplateFromFilePath,
-} from "../template-service/templateFinder.ts";
-import { getTemplateJsonSchema } from "../template-service/templateSchema.ts";
-
-const create = async (
-  templateSource: string,
-  skipPrompts: boolean,
-  variableArguments: Record<string, unknown> = {},
-) => {
-  const resolved = await getTemplate(templateSource);
-
-  if (resolved.sourceKind === "remote-url") {
-    const aliasContext = resolved.fromAlias
-      ? ` (resolved from alias "${resolved.fromAlias}")`
-      : "";
-
-    const allowDownload = await prompter.promptForBoolean({
-      name: "allowDownload",
-      message: `Do you trust the author "${resolved.template.author}" of the template "${resolved.template.name}" from "${resolved.source}"${aliasContext}?`,
-      default: false,
-      type: "boolean",
-    });
-
-    if (!allowDownload.content) {
-      throw new UserCancellationError();
-    }
-
-    const saveToRegistry = await prompter.promptForBoolean({
-      name: "saveToRegistry",
-      message:
-        "Do you want to save this template in your registry for later use?",
-      default: false,
-      type: "boolean",
-    });
-
-    if (saveToRegistry.content) {
-      const aliasResult = await prompter.promptForString({
-        name: "alias",
-        type: "string",
-        message: "Enter an alias to refer to this template in the registry:",
-        required: false,
-      });
-      await addTemplateToRegistry({
-        template: resolved.template,
-        deps: {
-          getRegistry: getRegistryAdapter,
-          saveRegistry: writeRegistryToFileAdapter,
-          saveTemplate: writeTemplateToFileAdapter,
-          specialAlias: aliasResult.content || undefined,
-        },
-      });
-    }
-  }
-  await scaffoldFromTemplate(resolved.template, skipPrompts, variableArguments);
-};
-
-/*
-########################
-# CLI command Handlers #
-########################
-*/
-const createHandler = async (
-  argv: ArgumentsCamelCase<{
-    templatePath: string | undefined;
-    skipPrompts: boolean;
-  }>,
-) => {
-  console.clear();
-
-  if (!argv.templatePath) {
-    console.error("Error: Template path is required.");
-    return;
-  }
-  const creationResult = await tryCatch(
-    create(argv.templatePath, argv.skipPrompts, argv),
-  );
-
-  if (creationResult.error) {
-    if (creationResult.error instanceof UserCancellationError) {
+const errorHandler = (func: () => void): void => {
+  try {
+    func();
+  } catch (error) {
+    if (error instanceof UserCancellationError) {
       console.log("Operation cancelled by the user.");
-    } else if (creationResult.error instanceof TemplateError) {
-      printExpectedError("Template Error", creationResult.error);
-    } else if (creationResult.error instanceof ProjgenError) {
-      printExpectedError("Projgen Error", creationResult.error);
+    } else if (error instanceof TemplateError) {
+      printExpectedError("Template Error", error);
+    } else if (error instanceof ProjgenError) {
+      printExpectedError("Projgen Error", error);
     } else {
       console.error("An unexpected error occurred:");
-      console.error(creationResult.error);
+      console.error(error);
     }
-  } else {
-    console.log("Project created successfully!");
   }
-};
-
-const addHandler = async (
-  argv: ArgumentsCamelCase<{
-    templatePath: string | undefined;
-    alias: string | undefined;
-  }>,
-) => {
-  if (!argv.templatePath) {
-    console.error("Error: Template path is required.");
-    return;
-  }
-
-  const template = getTemplateFromFilePath(argv.templatePath);
-  if (!template) {
-    throw new ProjgenError(
-      `Error: Template not found at path "${argv.templatePath}".`,
-    );
-  }
-  await addTemplateToRegistry({
-    template,
-    deps: {
-      getRegistry: getRegistryAdapter,
-      saveRegistry: writeRegistryToFileAdapter,
-      saveTemplate: writeTemplateToFileAdapter,
-      specialAlias: argv.alias || undefined,
-    },
-  });
-};
-
-const listHandler = async () => {
-  const registry = await findRegistry();
-  printRegistry(registry);
-};
-
-const removeHandler = async (
-  argv: ArgumentsCamelCase<{ alias: string | undefined }>,
-) => {
-  if (!argv.alias) {
-    console.error("Error: Alias is required.");
-    return;
-  }
-  await removeTemplateFromRegistry({
-    alias: argv.alias,
-    deps: {
-      getRegistry: getRegistryAdapter,
-      saveRegistry: writeRegistryToFileAdapter,
-      resolveTemplateLocation: ResolveTemplateLocationAdapter,
-      deleteFile: deleteFileAdapter,
-    },
-  });
-
-  console.log(
-    `Template with alias "${argv.alias}" has been removed from the registry.`,
-  );
-};
-
-const schemaHandler = async () => {
-  const schema = getTemplateJsonSchema();
-  console.log(JSON.stringify(schema, null, 2));
 };
 
 yargs()
@@ -193,7 +51,14 @@ yargs()
           default: false,
         });
     },
-    handler: createHandler,
+    handler: (args) => {
+      errorHandler(() => {
+        if (!args.templatePath) {
+          throw new ProjgenError("Template path is required.");
+        }
+        createCommand(args.templatePath, args.skipPrompts);
+      });
+    },
   })
   .command({
     command: "add [templatePath] [alias]",
@@ -210,13 +75,24 @@ yargs()
           describe: "Alias to refer to the template by in the registry",
         });
     },
-    handler: addHandler,
+    handler: (args) => {
+      errorHandler(() => {
+        if (!args.templatePath) {
+          throw new ProjgenError("Template path is required.");
+        }
+        addCommand(args.templatePath, args.alias);
+      });
+    },
   })
   .command({
     command: "list",
     describe: "List all registry entries",
     aliases: ["ls"],
-    handler: listHandler,
+    handler: () => {
+      errorHandler(() => {
+        listCommand();
+      });
+    },
   })
   .command({
     command: "remove [alias]",
@@ -228,12 +104,23 @@ yargs()
         describe: "Alias of the template to remove from the registry",
       });
     },
-    handler: removeHandler,
+    handler: (args) => {
+      errorHandler(() => {
+        if (!args.alias) {
+          throw new ProjgenError("Alias is required for the remove command.");
+        }
+        removeCommand(args.alias);
+      });
+    },
   })
   .command({
     command: "schema",
     describe: "Output the JSON schema for template files",
-    handler: schemaHandler,
+    handler: () => {
+      errorHandler(() => {
+        schemaCommand();
+      });
+    },
   })
   .help()
   .parse(hideBin(process.argv));

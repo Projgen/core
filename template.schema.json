@@ -121,20 +121,62 @@
                 "type": "boolean"
               },
               "options": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
                       "type": "string"
-                    },
-                    {
+                    }
+                  },
+                  {
+                    "type": "array",
+                    "items": {
                       "type": "number"
                     }
-                  ]
-                }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required",
+              "options"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
               },
-              "multiple": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "multi-select"
+              },
+              "required": {
                 "type": "boolean"
+              },
+              "options": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                ]
               }
             },
             "required": [
@@ -202,6 +244,12 @@
               },
               "command": {
                 "type": "string"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "cwd": {
                 "type": "string"
