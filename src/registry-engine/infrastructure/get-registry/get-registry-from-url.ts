@@ -6,7 +6,13 @@ import { ProjgenError } from "@/shared";
 export const getRegistryFromUrl = async (
   registryUrl: string,
 ): Promise<Registry> => {
-  const response = await fetch(registryUrl);
+  const response = await fetch(registryUrl, {
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
 
   if (!response.ok) {
     throw new ProjgenError(
@@ -15,6 +21,7 @@ export const getRegistryFromUrl = async (
   }
 
   const registryData = await response.json();
+
   const validationResult = registrySchema.safeParse(registryData);
 
   if (!validationResult.success) {

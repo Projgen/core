@@ -11,13 +11,39 @@ export const getTemplateSource = async ({
 
   const url = parseURL(source);
 
-  // Check for remote url
-  if (url?.protocol === "http:" || url?.protocol === "https:") {
-    return { kind: "remote-url", source };
-  }
   // Check for file url
   if (url?.protocol === "file:") {
     return { kind: "path", source: fileURLToPath(url) };
+  }
+
+  const sourceKind = getSourceKind(source);
+  if (sourceKind === "remote-url" || sourceKind === "path") {
+    return { kind: sourceKind, source };
+  }
+
+  // Handle as alias
+  const path = await getTemplateSourceFromRegistry(source);
+  if (!path) {
+    return { kind: "not-found", source: null };
+  }
+  const pathKind = getSourceKind(path);
+  if (pathKind === "remote-url" || pathKind === "path") {
+    return { kind: pathKind, source: path };
+  }
+  return { kind: "not-found", source: null };
+};
+
+const getSourceKind = (raw: string): GetTemplateSourceResult["kind"] | null => {
+  const source = raw.trim();
+
+  const url = parseURL(source);
+  // Check for remote url
+  if (url?.protocol === "http:" || url?.protocol === "https:") {
+    return "remote-url";
+  }
+  // Check for file url
+  if (url?.protocol === "file:") {
+    return "path";
   }
   // Check for path
   if (
@@ -25,13 +51,7 @@ export const getTemplateSource = async ({
     source.includes("\\") ||
     source.endsWith(".json")
   ) {
-    return { kind: "path", source };
+    return "path";
   }
-  // Handle as alias
-  const path = await getTemplateSourceFromRegistry(source);
-
-  if (path) {
-    return { kind: "path", source: path };
-  }
-  return { kind: "not-found", source: null };
+  return null;
 };

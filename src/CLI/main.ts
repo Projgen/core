@@ -13,10 +13,13 @@ import { listCommand } from "./commands/list.command.ts";
 import { removeCommand } from "./commands/remove.command.ts";
 import { schemaCommand } from "./commands/schema.command.ts";
 
-const errorHandler = (func: () => void): void => {
+const errorHandler = async (
+  func: () => Promise<void> | void,
+): Promise<void> => {
   try {
-    func();
+    await func();
   } catch (error) {
+    console.log();
     if (error instanceof UserCancellationError) {
       console.log("Operation cancelled by the user.");
     } else if (error instanceof TemplateError) {
@@ -51,12 +54,13 @@ yargs()
           default: false,
         });
     },
-    handler: (args) => {
-      errorHandler(() => {
+    handler: async (args) => {
+      console.clear();
+      await errorHandler(async () => {
         if (!args.templatePath) {
           throw new ProjgenError("Template path is required.");
         }
-        createCommand(args.templatePath, args.skipPrompts);
+        await createCommand(args.templatePath, args.skipPrompts);
       });
     },
   })
@@ -75,12 +79,12 @@ yargs()
           describe: "Alias to refer to the template by in the registry",
         });
     },
-    handler: (args) => {
-      errorHandler(() => {
+    handler: async (args) => {
+      await errorHandler(async () => {
         if (!args.templatePath) {
           throw new ProjgenError("Template path is required.");
         }
-        addCommand(args.templatePath, args.alias);
+        await addCommand(args.templatePath, args.alias);
       });
     },
   })
@@ -88,9 +92,9 @@ yargs()
     command: "list",
     describe: "List all registry entries",
     aliases: ["ls"],
-    handler: () => {
-      errorHandler(() => {
-        listCommand();
+    handler: async () => {
+      await errorHandler(async () => {
+        await listCommand();
       });
     },
   })
@@ -104,21 +108,21 @@ yargs()
         describe: "Alias of the template to remove from the registry",
       });
     },
-    handler: (args) => {
-      errorHandler(() => {
+    handler: async (args) => {
+      await errorHandler(async () => {
         if (!args.alias) {
           throw new ProjgenError("Alias is required for the remove command.");
         }
-        removeCommand(args.alias);
+        await removeCommand(args.alias);
       });
     },
   })
   .command({
     command: "schema",
     describe: "Output the JSON schema for template files",
-    handler: () => {
-      errorHandler(() => {
-        schemaCommand();
+    handler: async () => {
+      await errorHandler(async () => {
+        await schemaCommand();
       });
     },
   })

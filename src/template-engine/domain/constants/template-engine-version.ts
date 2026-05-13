@@ -1,1 +1,1 @@
-export const TEMPLATE_ENGINE_VERSION = "2.0";
+export const TEMPLATE_ENGINE_VERSION = "3.0";

@@ -3,6 +3,7 @@ import {
   getTemplateSourceFromRegistry,
   resolveTemplateLocationAdapter,
 } from "@/registry-engine";
+
 import {
   executeTemplate,
   fetchTextAdapter,
@@ -20,6 +21,8 @@ import {
 import { cliPrompter } from "../prompts";
 import type { Arrayify } from "@/shared/utils";
 import { ProjgenError } from "@/shared";
+import { confirmRemoteDownloadPrompt } from "../prompts/confirm-remote-download.prompt";
+import { UserCancellationError } from "../errors";
 
 const _getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort = (
   source: string,
@@ -48,6 +51,14 @@ export const createCommand = async (
   if (templateSource.kind === "not-found" || !templateSource.source) {
     throw new ProjgenError(`Template source "${templatePath}" not found.`);
   }
+
+  if (templateSource.kind === "remote-url") {
+    const accepted = await confirmRemoteDownloadPrompt(templateSource.source);
+    if (!accepted) {
+      throw new UserCancellationError();
+    }
+  }
+
   const { template } = await getTemplate({
     templateSource: { kind: templateSource.kind, value: templateSource.source },
     deps: {

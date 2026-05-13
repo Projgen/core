@@ -26,7 +26,7 @@
   },
   "scripts": {
     "dev": "tsx src/cli/main.ts",
-    "build": "tsc --outDir dist && tsc-alias && tsx src/scripts/schema.ts > template.schema.json",
+    "build": "npx rimraf dist && tsc --outDir dist && tsc-alias && tsx src/scripts/schema.ts > template.schema.json",
     "prepublishOnly": "npm run build",
     "start": "node dist/cli/main.js",
     "test": "vitest run src/",
