@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import spawn from "cross-spawn";
 import type { RunCommandPort } from "../application/ports/run-command.port";
 
 export const runCommandAdapter: RunCommandPort = async (
