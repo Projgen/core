@@ -1,4 +1,4 @@
-import type { FetchTextPort } from "../application/ports/fetch-text.port";
+import type { FetchTextPort } from "../domain/ports/fetch-text.port";
 
 export const fetchTextAdapter: FetchTextPort = async (
   url: string,

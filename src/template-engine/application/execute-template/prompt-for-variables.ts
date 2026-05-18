@@ -1,7 +1,7 @@
 import { ProjgenError } from "@/shared";
 import type { TemplateVariable } from "@/template-engine/domain";
 import type { VariableValue } from "@/template-engine/domain/variable-value";
-import type { PrompterPort } from "../../ports/prompter.port";
+import type { PrompterPort } from "../../domain/ports/prompter.port";
 
 export const promptForVariables = async (
   variables: TemplateVariable[],

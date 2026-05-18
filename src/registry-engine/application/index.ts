@@ -1,3 +1,3 @@
-export * from "./use-cases/add-template/add-template.use-case";
-export * from "./use-cases/get-template-source-from-registry/get-template-source-from-registry.use-case";
-export * from "./use-cases/remove-template/remove-template.use-case";
+export * from "./add-template/add-template.use-case";
+export * from "./get-template-source-from-registry/get-template-source-from-registry.use-case";
+export * from "./remove-template/remove-template.use-case";

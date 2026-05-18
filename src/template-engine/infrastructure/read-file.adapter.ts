@@ -1,5 +1,5 @@
 import { ProjgenError } from "@/shared";
-import type { ReadFilePort } from "../application/ports/read-file.port";
+import type { ReadFilePort } from "../domain/ports/read-file.port";
 import fs from "fs/promises";
 export const readFileAdapter: ReadFilePort = async (
   path: string,

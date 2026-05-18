@@ -2,9 +2,9 @@ import type { Registry } from "@/registry-engine";
 import type { Template } from "@/template-engine";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { addTemplateToRegistry } from "./add-template.use-case";
-import type { GetRegistryPort } from "../../ports/get-registry.port";
-import type { SaveTemplatePort } from "../../ports/save-template.port";
-import type { SaveRegistryPort } from "../../ports/save-registry.port";
+import type { GetRegistryPort } from "../../domain/ports/get-registry.port";
+import type { SaveTemplatePort } from "../../domain/ports/save-template.port";
+import type { SaveRegistryPort } from "../../domain/ports/save-registry.port";
 import { ProjgenError } from "@/shared";
 
 describe("addTemplateToRegistry", () => {

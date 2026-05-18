@@ -1,5 +1,5 @@
 import { tryCatch } from "@/shared";
-import type { LoadInternalTemplatePort } from "@/template-service/application/ports/load-intenal-template.port";
+import type { LoadInternalTemplatePort } from "@/template-service/domain/ports/load-intenal-template.port";
 import fs from "fs/promises";
 
 export const loadTemplateFromFileAdapter: LoadInternalTemplatePort = async (

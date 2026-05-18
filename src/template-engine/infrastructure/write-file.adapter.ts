@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from "fs/promises";
-import type { WriteFilePort } from "../application/ports/write-file.port";
+import type { WriteFilePort } from "../domain/ports/write-file.port";
 import { dirname } from "path";
 
 export const writeFileAdapter: WriteFilePort = async (

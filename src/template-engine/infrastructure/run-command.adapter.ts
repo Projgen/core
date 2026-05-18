@@ -1,5 +1,5 @@
 import spawn from "cross-spawn";
-import type { RunCommandPort } from "../application/ports/run-command.port";
+import type { RunCommandPort } from "../domain/ports/run-command.port";
 
 export const runCommandAdapter: RunCommandPort = async (
   command: string,

@@ -1,4 +1,4 @@
-import type { GetTemplateSourceFromRegistryPort } from "../../ports/get-template-source-from-registry.port";
+import type { GetTemplateSourceFromRegistryPort } from "../../domain/ports/get-template-source-from-registry.port";
 
 export type GetTemplateSourceInput = {
   source: string;

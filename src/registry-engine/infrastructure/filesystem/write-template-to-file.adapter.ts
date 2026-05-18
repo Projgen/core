@@ -1,4 +1,4 @@
-import type { SaveTemplatePort } from "@/registry-engine/application/ports/save-template.port";
+import type { SaveTemplatePort } from "@/registry-engine/domain/ports/save-template.port";
 import { getAppDataDir, ProjgenError } from "@/shared";
 import path from "path";
 import fs from "fs/promises";

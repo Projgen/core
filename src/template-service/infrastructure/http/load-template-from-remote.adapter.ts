@@ -1,5 +1,5 @@
 import { assertSameOriginRedirect } from "@/shared";
-import type { LoadExternalTemplatePort } from "@/template-service/application/ports/load-external-template.port";
+import type { LoadExternalTemplatePort } from "@/template-service/domain/ports/load-external-template.port";
 
 export const loadTemplateFromRemoteAdapter: LoadExternalTemplatePort = async (
   url: string,

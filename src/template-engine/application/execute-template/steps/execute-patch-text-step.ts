@@ -1,9 +1,9 @@
 import { TemplateError, type PatchTextStep } from "@/template-engine/domain";
 import type { VariableValue } from "@/template-engine/domain/variable-value";
 import { replaceVariablesInString } from "../replace-variable-in-string";
-import type { FetchTextPort } from "@/template-engine/application/ports/fetch-text.port";
-import type { ReadFilePort } from "@/template-engine/application/ports/read-file.port";
-import type { WriteFilePort } from "@/template-engine/application/ports/write-file.port";
+import type { FetchTextPort } from "@/template-engine/domain/ports/fetch-text.port";
+import type { ReadFilePort } from "@/template-engine/domain/ports/read-file.port";
+import type { WriteFilePort } from "@/template-engine/domain/ports/write-file.port";
 
 export const executePatchTextStep = async (
   step: PatchTextStep,

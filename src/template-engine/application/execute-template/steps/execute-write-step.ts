@@ -1,8 +1,8 @@
 import type { WriteStep } from "@/template-engine/domain";
 import type { VariableValue } from "@/template-engine/domain/variable-value";
 import { replaceVariablesInString } from "../replace-variable-in-string";
-import type { FetchTextPort } from "@/template-engine/application/ports/fetch-text.port";
-import type { WriteFilePort } from "@/template-engine/application/ports/write-file.port";
+import type { FetchTextPort } from "@/template-engine/domain/ports/fetch-text.port";
+import type { WriteFilePort } from "@/template-engine/domain/ports/write-file.port";
 
 export const executeWriteStep = async (
   step: WriteStep,

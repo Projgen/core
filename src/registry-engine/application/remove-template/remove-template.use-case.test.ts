@@ -1,11 +1,11 @@
 import { ProjgenError } from "@/shared";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { removeTemplateFromRegistry } from "./remove-template.use-case";
-import type { GetRegistryPort } from "../../ports/get-registry.port";
-import type { ResolveTemplateLocationPort } from "../../ports/resolve-template-location.port";
-import type { DeleteFilePort } from "../../ports/delete-file.port";
-import type { SaveRegistryPort } from "../../ports/save-registry.port";
-import type { Registry } from "../../../domain/schemas/registry.schema";
+import type { GetRegistryPort } from "../../domain/ports/get-registry.port";
+import type { ResolveTemplateLocationPort } from "../../domain/ports/resolve-template-location.port";
+import type { DeleteFilePort } from "../../domain/ports/delete-file.port";
+import type { SaveRegistryPort } from "../../domain/ports/save-registry.port";
+import type { Registry } from "../../domain/schemas/registry.schema";
 
 describe("removeTemplateFromRegistry", () => {
   const makeRegistry = (): Registry => ({

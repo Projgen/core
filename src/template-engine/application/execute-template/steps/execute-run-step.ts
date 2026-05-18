@@ -1,7 +1,7 @@
 import type { VariableValue } from "@/template-engine/domain/variable-value";
 import type { RunStep } from "@/template-engine/domain";
 import { replaceVariablesInString } from "../replace-variable-in-string";
-import type { RunCommandPort } from "@/template-engine/application/ports/run-command.port";
+import type { RunCommandPort } from "@/template-engine/domain/ports/run-command.port";
 
 export const executeRunStep = async (
   step: RunStep,

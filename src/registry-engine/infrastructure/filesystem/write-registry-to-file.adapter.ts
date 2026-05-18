@@ -1,4 +1,4 @@
-import type { SaveRegistryPort } from "@/registry-engine/application/ports/save-registry.port";
+import type { SaveRegistryPort } from "@/registry-engine/domain/ports/save-registry.port";
 import { getRegistryPath } from "../get-registry/get-registry-file-path";
 import fs from "fs/promises";
 import { ProjgenError, tryCatch } from "@/shared";
