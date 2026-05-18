@@ -383,6 +383,36 @@ npm install
 | `npm run lint`   | Lint the codebase with ESLint      |
 | `npm run format` | Format code with Prettier          |
 
+## Project Structure
+
+The codebase is organized into feature-based modules under `src/`, each with a clear internal layer structure. Every module exposes its public API through a barrel file (`index.ts`), so external code imports from the module root rather than reaching into internal paths.
+
+```
+src/
+  cli -> Logic for cli and entrypoint of cli application
+  registry-engine -> logic the handle registries (where links to templates via alias happens)
+  template-engine -> logic for executing templates
+  template-service -> additional logic around templates like validation and getting from source
+  shared -> Some shared util stuff that's needed in multible modules
+  scripts -> additional entrypoints for additional functionality outside of `projgen` command
+```
+
+registry-engine, template-engine and template-service also have a specified subfolder structure:
+
+```
+application -> contains the usecases and their logic
+domain -> defines things like types. Also contains ports (more on that later)
+infrastructure -> contains adapters and adapter logic (more on that later)
+```
+
+### Module Boundaries
+
+Cross-module imports must go through each module's `index.ts` barrel. Direct imports into `domain/`, `application/`, or `infrastructure/` sub-paths from outside the module are not allowed.
+
+### Ports and Adapters
+
+In order to improve flexibility and testability, the application code shouldn't have any direct access to the outside. So i shouldn't do things like fetch, filesystem interactions etc. This is done by passing the dependencies via properties. You define a interface in domain/ports and take in an implementation of that in you use-case. The specific implementation of these ports in done via adapters in infrastructure/\*. These handle interactions with "the outside", like fetch, filesystem interactions etc. When orchestrating a use case, like in the command logic (src/cli/commands), you import the use-case and the respective adapters and pass the adapters into the use-case properties.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE) for details.
