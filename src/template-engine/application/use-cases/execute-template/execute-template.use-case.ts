@@ -7,6 +7,7 @@ import { executeWriteStep } from "./steps/execute-write-step";
 import { executePatchTextStep } from "./steps/execute-patch-text-step";
 import { executePatchJsonStep } from "./steps/execute-patch-json-step";
 import { evaluateStepCondition } from "./evaluate-step-condition";
+import { TemplateError } from "@/template-engine/domain";
 
 export const executeTemplate = async ({
   template,
@@ -60,7 +61,10 @@ export const executeTemplate = async ({
       }
     } catch (error) {
       if (!step.continueOnError) {
-        throw error;
+        throw new TemplateError(
+          `Step: ${step.name || `unnamed ${step.type} step`} failed with error: ${(error as Error).message}`,
+          { cause: error },
+        );
       }
 
       console.error(
