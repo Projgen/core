@@ -1,4 +1,7 @@
+import path from "node:path";
+
 import { describe, expect, test } from "vitest";
+import { getRegistryPath } from "../get-registry/get-registry-file-path";
 import { resolveTemplateLocationAdapter } from "./resolve-template-location.adapter";
 
 describe("ResolveTemplateLocationAdapter", () => {
@@ -46,14 +49,24 @@ describe("ResolveTemplateLocationAdapter", () => {
     test("resolves file path", () => {
       const relativePath = "templates/myTemplate.json";
       const result = resolveTemplateLocationAdapter(relativePath);
-      expect(result).toMatch(/templates\\myTemplate\.json$/);
+      const expected = path.resolve(
+        path.dirname(getRegistryPath()),
+        relativePath,
+      );
+
+      expect(result).toBe(expected);
     });
 
     test("resolves file path with relative path", () => {
       const relativePath = "../templates/myTemplate.json";
       const result = resolveTemplateLocationAdapter(relativePath);
+      const expected = path.resolve(
+        path.dirname(getRegistryPath()),
+        relativePath,
+      );
+
       expect(result).not.toContain("registry");
-      expect(result).toContain("templates\\myTemplate.json");
+      expect(result).toBe(expected);
     });
   });
 });

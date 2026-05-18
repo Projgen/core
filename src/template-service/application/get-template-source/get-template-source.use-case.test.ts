@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, test } from "vitest";
 import { getTemplateSource } from "./get-template-source.use-case";
 
@@ -46,7 +48,10 @@ describe("getTemplateSource", () => {
       },
     });
 
-    expect(result).toEqual({ kind: "path", source: "C:\\templates\\my.json" });
+    expect(result).toEqual({
+      kind: "path",
+      source: fileURLToPath("file:///C:/templates/my.json"),
+    });
   });
 
   test("returns path when registry returns a path", async () => {
