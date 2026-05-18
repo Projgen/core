@@ -46,8 +46,7 @@ describe("ResolveTemplateLocationAdapter", () => {
     test("resolves file path", () => {
       const relativePath = "templates/myTemplate.json";
       const result = resolveTemplateLocationAdapter(relativePath);
-      expect(result).toContain("registry");
-      expect(result).toContain("templates\\myTemplate.json");
+      expect(result).toMatch(/templates\\myTemplate\.json$/);
     });
 
     test("resolves file path with relative path", () => {

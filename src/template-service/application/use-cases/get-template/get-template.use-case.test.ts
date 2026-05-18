@@ -62,4 +62,16 @@ describe("getTemplate", () => {
       }),
     ).rejects.toBeInstanceOf(ProjgenError);
   });
+
+  it("throws ProjgenError when template source kind invalid", async () => {
+    await expect(
+      getTemplate({
+        templateSource: { kind: "invalid-kind", value: "x" },
+        deps: {
+          loadExternalTemplate: async () => null,
+          loadInternalTemplate: async () => null,
+        },
+      }),
+    ).rejects.toBeInstanceOf(ProjgenError);
+  });
 });

@@ -9,6 +9,7 @@ export const getTemplateSourceFromRegistry = async ({
 }: GetTemplateSourceFromRegistryInput): Promise<GetTemplateSourceFromRegistryResult> => {
   const registry = await tryCatch(getRegistry(registryUrl));
 
+  // throw when local registry fetch fails, because it should have been created, when remote fetch fails, it is an expected exception
   if (registry.error && registryUrl) return { source: null };
   if (registry.error)
     throw new ProjgenError("Failed to fetch registry", {
@@ -31,7 +32,7 @@ export const getTemplateSourceFromRegistry = async ({
         resolveTemplateLocation,
       },
     });
-    if (externalEntryPath) return externalEntryPath;
+    if (externalEntryPath.source) return externalEntryPath;
   }
   return { source: null };
 };

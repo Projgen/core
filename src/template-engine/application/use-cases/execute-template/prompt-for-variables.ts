@@ -13,7 +13,6 @@ export const promptForVariables = async (
   let variableValues: VariableValue[] = [];
   for (const variable of variables) {
     if (variable.name in variableArguments) {
-      console.log(`Using provided value for variable "${variable.name}".`);
       switch (variable.type) {
         case "string":
           variableValues.push({

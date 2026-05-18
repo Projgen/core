@@ -58,6 +58,42 @@ describe("GetTemplateSourceFromRegistryUseCase", () => {
     expect(result.source).toBe("templates/template3.json");
   });
 
+  test("should continue to next linked registry if previous linked registry doesn't contain template", async () => {
+    const mockBaseRegistryWithTwoLinks: Registry = {
+      version: 1,
+      templates: [{ alias: "template1", path: "templates/template1.json" }],
+      linkedRegistries: [
+        "https://first.com/registry.json",
+        "https://second.com/registry.json",
+      ],
+    };
+
+    const firstExternal: Registry = {
+      version: 1,
+      templates: [{ alias: "other", path: "templates/other.json" }],
+    };
+
+    const secondExternal: Registry = {
+      version: 1,
+      templates: [{ alias: "template5", path: "templates/template5.json" }],
+    };
+
+    const mockGetRegistryChain: GetRegistryPort = async (url?: string) => {
+      if (url === "https://first.com/registry.json") return firstExternal;
+      if (url === "https://second.com/registry.json") return secondExternal;
+      return mockBaseRegistryWithTwoLinks;
+    };
+
+    const result = await getTemplateSourceFromRegistry({
+      alias: "template5",
+      deps: {
+        getRegistry: mockGetRegistryChain,
+        resolveTemplateLocation: mockResolveTemplateLocation,
+      },
+    });
+    expect(result.source).toBe("templates/template5.json");
+  });
+
   test("should return null if template is not found in any registry", async () => {
     const result = await getTemplateSourceFromRegistry({
       alias: "nonexistent-template",
@@ -67,5 +103,35 @@ describe("GetTemplateSourceFromRegistryUseCase", () => {
       },
     });
     expect(result.source).toBeNull();
+  });
+
+  test("should return null if registry fetch fails for remote registry", async () => {
+    const mockFailingGetRegistry: GetRegistryPort = async () => {
+      throw new Error("Failed to fetch registry");
+    };
+    const result = await getTemplateSourceFromRegistry({
+      alias: "template3",
+      registryUrl: "https://external-registry.com/registry.json",
+      deps: {
+        getRegistry: mockFailingGetRegistry,
+        resolveTemplateLocation: mockResolveTemplateLocation,
+      },
+    });
+    expect(result.source).toBeNull();
+  });
+
+  test("should throw an error if registry fetch fails for local registry", async () => {
+    const mockFailingGetRegistry: GetRegistryPort = async () => {
+      throw new Error("Failed to fetch registry");
+    };
+    await expect(
+      getTemplateSourceFromRegistry({
+        alias: "template1",
+        deps: {
+          getRegistry: mockFailingGetRegistry,
+          resolveTemplateLocation: mockResolveTemplateLocation,
+        },
+      }),
+    ).rejects.toThrow("Failed to fetch registry");
   });
 });

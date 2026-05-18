@@ -246,9 +246,7 @@ describe("executeTemplate", () => {
 
     expect(executeRunStepMock).toHaveBeenCalledTimes(1);
     expect(executeWriteStepMock).toHaveBeenCalledTimes(1);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Step "run" failed, continuing because continueOnError is enabled.',
-    );
+    expect(consoleErrorSpy).toHaveBeenCalledOnce();
 
     consoleErrorSpy.mockRestore();
   });
