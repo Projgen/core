@@ -385,33 +385,33 @@ npm install
 
 ## Project Structure
 
-The codebase is organized into feature-based modules under `src/`, each with a clear internal layer structure. Every module exposes its public API through a barrel file (`index.ts`), so external code imports from the module root rather than reaching into internal paths.
+The codebase is organized into feature-based modules under `src/`. Each module exposes its public API through a barrel file (`index.ts`), so code outside the module imports from the module root instead of reaching into internal paths.
 
-```
+```text
 src/
-  cli -> Logic for cli and entrypoint of cli application
-  registry-engine -> logic the handle registries (where links to templates via alias happens)
-  template-engine -> logic for executing templates
-  template-service -> additional logic around templates like validation and getting from source
-  shared -> Some shared util stuff that's needed in multible modules
-  scripts -> additional entrypoints for additional functionality outside of `projgen` command
+  cli/               -> CLI entrypoint and command-line specific logic
+  registry-engine/   -> Logic for working with registries, including resolving template aliases
+  template-engine/   -> Logic for executing templates
+  template-service/  -> Higher-level template logic, such as validation and loading templates from a source
+  shared/            -> Shared utilities used across multiple modules
+  scripts/           -> Additional entrypoints for functionality outside the main `projgen` command
 ```
 
-registry-engine, template-engine and template-service also have a specified subfolder structure:
+`registry-engine`, `template-engine`, and `template-service` follow the same internal structure:
 
+```text
+application/      -> Use cases and their orchestration logic
+domain/           -> Domain types and port definitions
+infrastructure/   -> Adapters and technical implementation details
 ```
-application -> contains the usecases and their logic
-domain -> defines things like types. Also contains ports (more on that later)
-infrastructure -> contains adapters and adapter logic (more on that later)
-```
-
-### Module Boundaries
-
-Cross-module imports must go through each module's `index.ts` barrel. Direct imports into `domain/`, `application/`, or `infrastructure/` sub-paths from outside the module are not allowed.
 
 ### Ports and Adapters
 
-In order to improve flexibility and testability, the application code shouldn't have any direct access to the outside. So i shouldn't do things like fetch, filesystem interactions etc. This is done by passing the dependencies via properties. You define a interface in domain/ports and take in an implementation of that in you use-case. The specific implementation of these ports in done via adapters in infrastructure/\*. These handle interactions with "the outside", like fetch, filesystem interactions etc. When orchestrating a use case, like in the command logic (src/cli/commands), you import the use-case and the respective adapters and pass the adapters into the use-case properties.
+To keep the application logic flexible and testable, use cases should not directly perform external operations such as filesystem access, network requests, or process execution.
+
+Instead, those dependencies are passed into the use case as properties. The required contracts are defined as ports in `domain/ports`, and the concrete implementations are provided by adapters in `infrastructure/`. These adapters handle interaction with the outside world, such as reading files, calling `fetch`, or running commands.
+
+When a use case is orchestrated, for example in the CLI command layer (`src/cli/commands`), the command imports the use case together with the required adapters and passes those adapters into the use case.
 
 ## License
 
