@@ -68,15 +68,13 @@ describe("executePatchJsonStep", () => {
   });
 
   it("removes a property at the json path", async () => {
-    const readFile = vi
-      .fn()
-      .mockResolvedValue(
-        JSON.stringify({
-          compilerOptions: {
-            paths: { "@/*": ["src/*"], "@app/*": ["src/app/*"] },
-          },
-        }),
-      );
+    const readFile = vi.fn().mockResolvedValue(
+      JSON.stringify({
+        compilerOptions: {
+          paths: { "@/*": ["src/*"], "@app/*": ["src/app/*"] },
+        },
+      }),
+    );
     const writeFile = vi.fn().mockResolvedValue(undefined);
 
     await executePatchJsonStep(

@@ -90,7 +90,8 @@ describe("getTemplateSource", () => {
     const result = await getTemplateSource({
       source: "alias-file-url",
       deps: {
-        getTemplateSourceFromRegistry: async () => "file:///C:/templates/from-registry.json",
+        getTemplateSourceFromRegistry: async () =>
+          "file:///C:/templates/from-registry.json",
       },
     });
 

@@ -13,7 +13,9 @@ describe("replaceVariablesInString", () => {
 
   it("stringifies non-string values", () => {
     expect(
-      replaceVariablesInString("Count: {{count}}", [{ name: "count", content: 3 }]),
+      replaceVariablesInString("Count: {{count}}", [
+        { name: "count", content: 3 },
+      ]),
     ).toBe("Count: 3");
   });
 });
