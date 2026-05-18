@@ -81,40 +81,48 @@ const appendValueAtJsonPath = (
   jsonPath: string[],
   value: unknown,
 ): unknown => {
-  if (typeof jsonPath[0] !== "string")
+  if (typeof jsonPath[0] !== "string") {
     throw new TemplateError("jsonPath has to be an array of strings");
-  if (isRecord(json)) {
-    if (jsonPath.length > 1) {
-      json[jsonPath[0]] = appendValueAtJsonPath(
-        json[jsonPath[0]],
-        jsonPath.slice(1),
-        value,
-      );
-      return json;
-    }
-    const target = json[jsonPath[0]];
-
-    if (Array.isArray(target) && Array.isArray(value)) {
-      json[jsonPath[0]] = [...target, ...value];
-      return json;
-    } else if (Array.isArray(target) && !Array.isArray(value)) {
-      json[jsonPath[0]] = [...target, value];
-      return json;
-    } else if (typeof target === "object" && isRecord(value)) {
-      json[jsonPath[0]] = { ...target, ...value };
-      return json;
-    } else {
-      throw new TemplateError(
-        `Cannot append value to target at jsonPath ${jsonPath.join(
-          ".",
-        )} because they are not compatible types`,
-      );
-    }
   }
+
+  if (!isRecord(json)) {
+    throw new TemplateError(
+      `Cannot append value to target at jsonPath ${jsonPath.join(
+        ".",
+      )} because there it's not a path of objects`,
+    );
+  }
+
+  if (jsonPath.length > 1) {
+    json[jsonPath[0]] = appendValueAtJsonPath(
+      json[jsonPath[0]],
+      jsonPath.slice(1),
+      value,
+    );
+    return json;
+  }
+
+  const target = json[jsonPath[0]];
+
+  if (Array.isArray(target) && Array.isArray(value)) {
+    json[jsonPath[0]] = [...target, ...value];
+    return json;
+  }
+
+  if (Array.isArray(target) && !Array.isArray(value)) {
+    json[jsonPath[0]] = [...target, value];
+    return json;
+  }
+
+  if (isRecord(target) && isRecord(value)) {
+    json[jsonPath[0]] = { ...target, ...value };
+    return json;
+  }
+
   throw new TemplateError(
     `Cannot append value to target at jsonPath ${jsonPath.join(
       ".",
-    )} because there it's not a path of objects`,
+    )} because they are not compatible types`,
   );
 };
 

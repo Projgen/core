@@ -28,15 +28,15 @@ export const executeTemplate = async ({
   );
 
   for (const step of template.steps) {
-    if (
-      step.when &&
-      !step.when.every((condition) =>
-        evaluateStepCondition(condition, variables),
-      )
-    ) {
-      continue;
-    }
     try {
+      if (
+        step.when &&
+        !step.when.every((condition) =>
+          evaluateStepCondition(condition, variables),
+        )
+      ) {
+        continue;
+      }
       switch (step.type) {
         case "run":
           await executeRunStep(step, variables, runCommand);
@@ -68,7 +68,7 @@ export const executeTemplate = async ({
       }
 
       console.error(
-        `Step "${step.type}" failed, continuing because continueOnError is enabled.`,
+        `Step "${step.name || `unnamed ${step.type} step`}" failed with error: ${(error as Error).message}, continuing because continueOnError is enabled.`,
       );
     }
   }
