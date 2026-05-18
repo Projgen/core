@@ -2,6 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The JSON Schema version used for this template",
+      "example": "https://raw.githubusercontent.com/Projgen/core/refs/heads/master/template.schema.json"
+    },
     "id": {
       "type": "string"
     },
@@ -242,6 +247,12 @@
               "continueOnError": {
                 "type": "boolean"
               },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
               "command": {
                 "type": "string"
               },
@@ -308,6 +319,12 @@
               "continueOnError": {
                 "type": "boolean"
               },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
               "path": {
                 "type": "string"
               },
@@ -370,6 +387,12 @@
               },
               "continueOnError": {
                 "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
               },
               "path": {
                 "type": "string"
@@ -447,6 +470,12 @@
               },
               "continueOnError": {
                 "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
               },
               "path": {
                 "type": "string"
