@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/Projgen/core/compare/v2.5.0...v2.6.0) (2026-05-18)
+
+
+### Features
+
+* new release ([7b5255e](https://github.com/Projgen/core/commit/7b5255ea55afa7748ff5620a7131cd788e074ab7))
+
 ## [2.5.0](https://github.com/Projgen/core/compare/v2.4.0...v2.5.0) (2026-05-07)
 
 
