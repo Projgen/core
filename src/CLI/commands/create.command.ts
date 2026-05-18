@@ -23,6 +23,7 @@ import type { Arrayify } from "@/shared/utils";
 import { ProjgenError } from "@/shared";
 import { confirmRemoteDownloadPrompt } from "../prompts/confirm-remote-download.prompt";
 import { UserCancellationError } from "../errors";
+import { printTemplateInfo } from "../presenters/print-template-info";
 
 const _getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort = (
   source: string,
@@ -73,6 +74,7 @@ export const createCommand = async (
     );
   }
 
+  printTemplateInfo(template);
   await executeTemplate({
     template,
     skipPrompts,
