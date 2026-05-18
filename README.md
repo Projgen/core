@@ -383,6 +383,36 @@ npm install
 | `npm run lint`   | Lint the codebase with ESLint      |
 | `npm run format` | Format code with Prettier          |
 
+## Project Structure
+
+The codebase is organized into feature-based modules under `src/`. Each module exposes its public API through a barrel file (`index.ts`), so code outside the module imports from the module root instead of reaching into internal paths.
+
+```text
+src/
+  cli/               -> CLI entrypoint and command-line specific logic
+  registry-engine/   -> Logic for working with registries, including resolving template aliases
+  template-engine/   -> Logic for executing templates
+  template-service/  -> Higher-level template logic, such as validation and loading templates from a source
+  shared/            -> Shared utilities used across multiple modules
+  scripts/           -> Additional entrypoints for functionality outside the main `projgen` command
+```
+
+`registry-engine`, `template-engine`, and `template-service` follow the same internal structure:
+
+```text
+application/      -> Use cases and their orchestration logic
+domain/           -> Domain types and port definitions
+infrastructure/   -> Adapters and technical implementation details
+```
+
+### Ports and Adapters
+
+To keep the application logic flexible and testable, use cases should not directly perform external operations such as filesystem access, network requests, or process execution.
+
+Instead, those dependencies are passed into the use case as properties. The required contracts are defined as ports in `domain/ports`, and the concrete implementations are provided by adapters in `infrastructure/`. These adapters handle interaction with the outside world, such as reading files, calling `fetch`, or running commands.
+
+When a use case is orchestrated, for example in the CLI command layer (`src/cli/commands`), the command imports the use case together with the required adapters and passes those adapters into the use case.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE) for details.

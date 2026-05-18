@@ -8,9 +8,9 @@
     "cli"
   ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/cli/main.js",
   "bin": {
-    "projgen": "dist/index.js"
+    "projgen": "dist/cli/main.js"
   },
   "files": [
     "dist",
@@ -25,18 +25,20 @@
     "url": "git+https://github.com/Projgen/core.git"
   },
   "scripts": {
-    "dev": "nodemon --watch src --ext ts --exec \"ts-node ./src/index.ts\"",
-    "build": "tsc --outDir dist && node dist/schema.js > template.schema.json",
+    "dev": "tsx src/cli/main.ts",
+    "build": "npx rimraf dist && tsc --outDir dist && tsc-alias && tsx src/scripts/schema.ts > template.schema.json",
     "prepublishOnly": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node dist/cli/main.js",
     "test": "vitest run src/",
     "test:coverage": "vitest run src/ --coverage",
+    "test:watch": "vitest watch src/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
     "@types/node": "^25.6.0",
     "@types/yargs": "^17.0.35",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
@@ -51,7 +53,11 @@
     "vitest": "^4.1.4"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.4.2",
+    "cross-spawn": "^7.0.6",
     "inquirer": "^13.4.2",
+    "tsc-alias": "^1.8.17",
+    "tsx": "^4.21.0",
     "yargs": "^18.0.0",
     "zod": "^4.3.6"
   }

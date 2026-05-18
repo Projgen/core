@@ -4,6 +4,9 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -44,5 +47,15 @@
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "vitest.config.ts"],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "replacers": {
+      "base-url": {
+        "enabled": false
+      }
+    }
   }
 }
