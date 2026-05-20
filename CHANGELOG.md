@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/Projgen/core/compare/v2.7.0...v2.7.1) (2026-05-20)
+
+
+### Bug Fixes
+
+* Update template engine version to 3.1 ([1ddf950](https://github.com/Projgen/core/commit/1ddf9507bc7cb2d14c78b0dbe3ae1cd88c7aa56e))
+
 ## [2.7.0](https://github.com/Projgen/core/compare/v2.6.0...v2.7.0) (2026-05-20)
 
 
