@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.0](https://github.com/Projgen/core/compare/v2.7.1...v2.8.0) (2026-05-20)
+
+
+### Features
+
+* allow default values in select variable ([26aca41](https://github.com/Projgen/core/commit/26aca4127e76728802eb41b30cc4291e5a70a3a1))
+* set variables with cli flags ([26aca41](https://github.com/Projgen/core/commit/26aca4127e76728802eb41b30cc4291e5a70a3a1))
+
 ## [2.7.1](https://github.com/Projgen/core/compare/v2.7.0...v2.7.1) (2026-05-20)
 
 
