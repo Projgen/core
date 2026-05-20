@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/Projgen/core/compare/v2.6.0...v2.7.0) (2026-05-20)
+
+
+### Features
+
+* add and implement verbosity option to run step ([#78](https://github.com/Projgen/core/issues/78)) ([e7fcadd](https://github.com/Projgen/core/commit/e7fcadd952811fe8e04c14a63cf4a95463379f32))
+
 ## [2.6.0](https://github.com/Projgen/core/compare/v2.5.0...v2.6.0) (2026-05-18)
 
 
