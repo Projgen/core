@@ -60,7 +60,11 @@ yargs()
         if (!args.templatePath) {
           throw new ProjgenError("Template path is required.");
         }
-        await createCommand(args.templatePath, args.skipPrompts);
+        await createCommand({
+          templatePath: args.templatePath,
+          skipPrompts: args.skipPrompts,
+          variables: args,
+        });
       });
     },
   })

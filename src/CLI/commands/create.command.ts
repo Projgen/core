@@ -38,11 +38,15 @@ const _getTemplateSourceFromRegistry: GetTemplateSourceFromRegistryPort = (
     return result.source;
   });
 
-export const createCommand = async (
-  templatePath: string,
-  skipPrompts: boolean = false,
-  variables: Record<string, unknown> = {},
-) => {
+export const createCommand = async ({
+  templatePath,
+  skipPrompts = false,
+  variables = {},
+}: {
+  templatePath: string;
+  skipPrompts?: boolean;
+  variables?: Record<string, unknown>;
+}) => {
   const templateSource = await getTemplateSource({
     source: templatePath,
     deps: {

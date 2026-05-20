@@ -140,6 +140,16 @@
                     }
                   }
                 ]
+              },
+              "default": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
               }
             },
             "required": [
@@ -266,12 +276,7 @@
                 "type": "string"
               },
               "verbosity": {
-                "type": "string",
-                "enum": [
-                  "all",
-                  "warning",
-                  "none"
-                ]
+                "type": "string"
               }
             },
             "required": [
