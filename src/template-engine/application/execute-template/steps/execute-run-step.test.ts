@@ -21,7 +21,12 @@ describe("executeRunStep", () => {
       runCommand,
     );
 
-    expect(runCommand).toHaveBeenCalledWith("npm", ["run", "build"], ".");
+    expect(runCommand).toHaveBeenCalledWith(
+      "npm",
+      ["run", "build"],
+      ".",
+      "all",
+    );
   });
 
   it("uses an empty args array when none are provided", async () => {
@@ -29,6 +34,24 @@ describe("executeRunStep", () => {
 
     await executeRunStep({ type: "run", command: "echo" }, [], runCommand);
 
-    expect(runCommand).toHaveBeenCalledWith("echo", [], undefined);
+    expect(runCommand).toHaveBeenCalledWith("echo", [], undefined, "all");
+  });
+
+  it("throws an error for invalid verbosity levels", async () => {
+    const runCommand = vi.fn().mockResolvedValue(undefined);
+
+    await expect(
+      executeRunStep(
+        {
+          type: "run",
+          command: "echo",
+          verbosity: "{{verbosity}}",
+        },
+        [{ name: "verbosity", content: "invalid" }],
+        runCommand,
+      ),
+    ).rejects.toThrow(
+      'Invalid verbosity level "invalid" in step "undefined". Valid options are "all", "warning", or "none".',
+    );
   });
 });

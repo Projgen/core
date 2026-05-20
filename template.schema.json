@@ -49,7 +49,12 @@
                 "type": "boolean"
               }
             },
-            "required": ["name", "message", "type", "required"],
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required"
+            ],
             "additionalProperties": false
           },
           {
@@ -72,7 +77,12 @@
                 "type": "boolean"
               }
             },
-            "required": ["name", "message", "type", "required"],
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required"
+            ],
             "additionalProperties": false
           },
           {
@@ -92,7 +102,11 @@
                 "type": "boolean"
               }
             },
-            "required": ["name", "message", "type"],
+            "required": [
+              "name",
+              "message",
+              "type"
+            ],
             "additionalProperties": false
           },
           {
@@ -128,7 +142,13 @@
                 ]
               }
             },
-            "required": ["name", "message", "type", "required", "options"],
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required",
+              "options"
+            ],
             "additionalProperties": false
           },
           {
@@ -164,7 +184,13 @@
                 ]
               }
             },
-            "required": ["name", "message", "type", "required", "options"],
+            "required": [
+              "name",
+              "message",
+              "type",
+              "required",
+              "options"
+            ],
             "additionalProperties": false
           }
         ]
@@ -210,7 +236,11 @@
                       "$ref": "#/$defs/__schema0"
                     }
                   },
-                  "required": ["variable", "operator", "value"],
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
                   "additionalProperties": false
                 }
               },
@@ -234,9 +264,20 @@
               },
               "cwd": {
                 "type": "string"
+              },
+              "verbosity": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "warning",
+                  "none"
+                ]
               }
             },
-            "required": ["type", "command"],
+            "required": [
+              "type",
+              "command"
+            ],
             "additionalProperties": false
           },
           {
@@ -275,7 +316,11 @@
                       "$ref": "#/$defs/__schema0"
                     }
                   },
-                  "required": ["variable", "operator", "value"],
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
                   "additionalProperties": false
                 }
               },
@@ -298,7 +343,10 @@
                 "type": "string"
               }
             },
-            "required": ["type", "path"],
+            "required": [
+              "type",
+              "path"
+            ],
             "additionalProperties": false
           },
           {
@@ -337,7 +385,11 @@
                       "$ref": "#/$defs/__schema0"
                     }
                   },
-                  "required": ["variable", "operator", "value"],
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
                   "additionalProperties": false
                 }
               },
@@ -373,7 +425,11 @@
                 "type": "string"
               }
             },
-            "required": ["type", "path", "operation"],
+            "required": [
+              "type",
+              "path",
+              "operation"
+            ],
             "additionalProperties": false
           },
           {
@@ -412,7 +468,11 @@
                       "$ref": "#/$defs/__schema0"
                     }
                   },
-                  "required": ["variable", "operator", "value"],
+                  "required": [
+                    "variable",
+                    "operator",
+                    "value"
+                  ],
                   "additionalProperties": false
                 }
               },
@@ -430,7 +490,11 @@
               },
               "operation": {
                 "type": "string",
-                "enum": ["set", "append", "remove"]
+                "enum": [
+                  "set",
+                  "append",
+                  "remove"
+                ]
               },
               "jsonPath": {
                 "type": "array",
@@ -442,7 +506,12 @@
                 "$ref": "#/$defs/__schema0"
               }
             },
-            "required": ["type", "path", "operation", "jsonPath"],
+            "required": [
+              "type",
+              "path",
+              "operation",
+              "jsonPath"
+            ],
             "additionalProperties": false
           }
         ]
